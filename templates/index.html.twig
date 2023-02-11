@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="h-100">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            
+            <link href="/vendor/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+            
+        {% endblock %}
+
+        <style></style>
+       
+    
+        
+        
+        
+       
+    </head>
+    <body class="d-flex flex-column h-100">
+        <nav class="py-2 bg-light border-bottom">
+        <div class="container d-flex flex-wrap">
+            <ul class="nav me-auto">
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Контакты</a></li>
+            </ul>
+            <ul class="nav">
+                <li class="nav-item"><a href="#" class="btn btn-outline-dark">Войти</a></li>
+                <li class="nav-item ms-4"><a href="#" class="btn btn-outline-dark">Регистрация</a></li>
+            </ul>
+        </div>
+    </nav>
+    <header class="py-3 mb-4 border-bottom">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+                <span class="fs-4">Поиск запчасти</span>
+            </a>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
+                <input type="search" class="form-control" placeholder="Введите номер..." aria-label="Search">
+            </form>
+      </div>
+    </header>      
+    <main class="flex-shrink-0">
+        <div class="container">    
+        {% block body %}
+                   
+        {% endblock %}
+    
+    
+    
+        </div>
+    </main>
+    
+    
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">ProxyParts 2023</span>
+        </div>
+    </footer>
+    
+    
+     {% block javascripts %}
+            <script src="/vendor/js/bootstrap/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+        {% endblock %}
+    
+        
+        
+        
+        
+    </body>    
+</html>
