@@ -17,11 +17,9 @@ class IndexController extends AbstractController
     /**
      * @Route("/")
      */
-    public function show(): Response
+    public function show(\App\Service\User $userServ): Response
     {
-        $number = random_int(0, 100);
 
         return $this->render('index.html.twig');
-
     }
 }

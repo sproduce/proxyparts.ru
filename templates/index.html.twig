@@ -2,45 +2,42 @@
 <html class="h-100">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}ProxyParts{% endblock %}</title>
         {% block stylesheets %}
             
             <link href="/vendor/css/bootstrap/bootstrap.min.css" rel="stylesheet">
             
         {% endblock %}
-
-        <style></style>
-       
-    
-        
-        
-        
-       
     </head>
     <body class="d-flex flex-column h-100">
-        <nav class="py-2 bg-light border-bottom">
+        <nav class="bg-light border-bottom">
         <div class="container d-flex flex-wrap">
             <ul class="nav me-auto">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">О проекте</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Новости</a></li>
+                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Описание API</a></li>
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Контакты</a></li>
             </ul>
-            <ul class="nav">
-                <li class="nav-item"><a href="#" class="btn btn-outline-dark">Войти</a></li>
-                <li class="nav-item ms-4"><a href="#" class="btn btn-outline-dark">Регистрация</a></li>
+            <ul class="nav py-1">
+                <li class="nav-item"><a href="/login" class="btn btn-sm btn-outline-dark">Войти</a></li>
+                <li class="nav-item ms-4"><a href="/register" class="btn btn-sm btn-outline-dark">Регистрация</a></li>
             </ul>
         </div>
     </nav>
-    <header class="py-3 mb-4 border-bottom">
+    <header class="py-1 mb-4 border-bottom">
         <div class="container d-flex flex-wrap justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-                <span class="fs-4">Поиск запчасти</span>
-            </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-                <input type="search" class="form-control" placeholder="Введите номер..." aria-label="Search">
-            </form>
+           <div class="pt-1 text-center"> Поиск запчасти</div>
+           <div class="mx-3">
+            
+            <form method="post" action="/search">
+                <input type="search" class="form-control form-control-sm" placeholder="Номер..." aria-label="Search">
+                
+            
+           </div>
+           <div>
+               <button class="btn btn-sm btn-outline-primary">Найти</button>
+           </div>
+           </form>
       </div>
     </header>      
     <main class="flex-shrink-0">
