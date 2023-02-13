@@ -17,9 +17,8 @@ class IndexController extends AbstractController
     /**
      * @Route("/")
      */
-    public function show(\App\Service\User $userServ): Response
+    public function show(\App\Service\UserService $userServ): Response
     {
-
         return $this->render('index.html.twig');
     }
 }
