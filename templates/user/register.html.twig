@@ -1,0 +1,22 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+    <div class="form-group row justify-content-center">
+        <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+        <div class="col-sm-4">
+            <input name="e-mail" type="email" class="form-control form-control-sm" id="inputEmail" placeholder="Email" required>
+        </div>
+    </div>
+    <div class="form-group row justify-content-center">
+        <label for="userPasswd" class="col-sm-3 col-form-label">Пароль</label>
+        <div class="col-sm-4">
+            <input name="userPasswd" id="userPasswd" type="password" class="form-control form-control-sm" id="inputPassword" placeholder="Пароль" required>
+        </div>
+    </div>
+    <div class="form-group row justify-content-center">
+        <label for="userPasswdRepeat" class="col-sm-3 col-form-label">Пароль еще раз</label>
+        <div class="col-sm-4">
+            <input name="userPasswdRepeat" id="userPasswdRepeat" type="password" class="form-control form-control-sm" id="inputPassword1" placeholder="Повторить пароль" required>
+        </div>
+    </div>
+{% endblock %}

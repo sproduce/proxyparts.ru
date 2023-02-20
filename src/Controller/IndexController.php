@@ -21,4 +21,14 @@ class IndexController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
+    
+    
+    /**
+     * @Route("/register")
+     */
+    public function register() 
+    {
+        return $this->render('user/register.html.twig');
+    }
+    
 }
