@@ -14,6 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
+    function __construct()
+    {
+        $userId = \Core_static::checkAccess();
+    }
+    
+    
     /**
      * @Route("/")
      */
@@ -24,11 +30,21 @@ class IndexController extends AbstractController
     
     
     /**
-     * @Route("/register")
+     * @Route("/register", methods={"GET"})
      */
     public function register() 
     {
         return $this->render('user/register.html.twig');
+    }
+    
+    
+     /**
+     * @Route("/register", methods={"POST"})
+     */
+    public function storeUser() 
+    {
+        //echo $this->getParameter('app.google_capthca_secret');
+        return $this->redirect("/");
     }
     
 }
