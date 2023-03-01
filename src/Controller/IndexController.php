@@ -1,5 +1,4 @@
 <?php
-// src/Controller/LuckyController.php
 
 
 namespace App\Controller;
@@ -9,11 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\Request;
 
 
 class IndexController extends AbstractController
 {
+    private $userObj;
+    
     function __construct()
     {
         $userId = \Core_static::checkAccess();
@@ -32,7 +33,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/register", methods={"GET"})
      */
-    public function register() 
+    public function register(): Response
     {
         return $this->render('user/register.html.twig');
     }
@@ -41,8 +42,10 @@ class IndexController extends AbstractController
      /**
      * @Route("/register", methods={"POST"})
      */
-    public function storeUser() 
+    public function storeUser(Request $request) 
     {
+        $user = new \App\Entity\User();
+        
         //echo $this->getParameter('app.google_capthca_secret');
         return $this->redirect("/");
     }
