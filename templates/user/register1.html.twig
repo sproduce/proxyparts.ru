@@ -1,0 +1,26 @@
+{% extends "index.html.twig" %}
+
+
+{% block search %}
+    
+{% endblock %}
+
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% block body %}
+ {{ form_start(form) }}
+ 
+      {{ form_row(form.name,{ 'label': 'Имя' }) }}
+ 
+      {{ form_row(form.nickName) }}
+ 
+ 
+ {{ form_end(form) }}
+ 
+{% endblock %}
+
+
+
+{% block javascripts %}
+      {{ parent() }}
+
+{% endblock %}

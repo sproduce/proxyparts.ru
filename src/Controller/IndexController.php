@@ -38,16 +38,5 @@ class IndexController extends AbstractController
         return $this->render('user/register.html.twig');
     }
     
-    
-     /**
-     * @Route("/register", methods={"POST"})
-     */
-    public function storeUser(Request $request) 
-    {
-        $user = new \App\Entity\User();
-        
-        //echo $this->getParameter('app.google_capthca_secret');
-        return $this->redirect("/");
-    }
-    
+   
 }
