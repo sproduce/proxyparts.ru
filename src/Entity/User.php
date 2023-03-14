@@ -5,14 +5,30 @@ class User {
     protected $name;
     protected $nickName;
     protected $passwd;
-    protected $passwdRepeat;
     protected $email;
     protected $phone;
-    protected $key;
+    protected $phoneCanonical;
+    protected $telegramId;
+    protected $keyMd5;
+    protected $id;
     
     
     
-    public function getName() {
+    public function getPhoneCanonical() {
+        return $this->phoneCanonical;
+    }
+
+    public function getTelegramId() {
+        return $this->telegramId;
+    }
+
+        
+    
+    public function getId() {
+        return $this->id;
+    }
+
+        public function getName() {
         return $this->name;
     }
 
@@ -24,10 +40,6 @@ class User {
         return $this->passwd;
     }
 
-    public function getPasswdRepeat() {
-        return $this->passwdRepeat;
-    }
-
     public function getEmail() {
         return $this->email;
     }
@@ -37,7 +49,7 @@ class User {
     }
 
     public function getKey() {
-        return $this->key;
+        return $this->keyMd5;
     }
 
     public function setName($name): void {
@@ -52,10 +64,6 @@ class User {
         $this->passwd = $passwd;
     }
 
-    public function setPasswdRepeat($passwdRepeat): void {
-        $this->passwdRepeat = $passwdRepeat;
-    }
-
     public function setEmail($email): void {
         $this->email = $email;
     }
@@ -65,8 +73,21 @@ class User {
     }
 
     public function setKey($key): void {
-        $this->key = $key;
+        $this->keyMd5 = $key;
     }
+    
+    public function setId($id): void {
+        $this->id = $id;
+    }
+
+    public function setPhoneCanonical($phoneCanonical): void {
+        $this->phoneCanonical = $phoneCanonical;
+    }
+
+    public function setTelegramId($telegramId): void {
+        $this->telegramId = $telegramId;
+    }
+
 
 
 }

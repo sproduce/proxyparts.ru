@@ -1,0 +1,27 @@
+<div class="modal-header text-center bg-light">
+    <h4 class="modal-title">Вход</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+{{ form_start(form) }}
+
+<div class="modal-body mx-3">
+            
+            
+              
+                {{ form_row(form.email, { 'label': 'Почта' }) }}
+                {{ form_row(form.passwd, {'label': 'Пароль'}) }}
+                
+      
+</div>
+    
+
+
+<div class="modal-footer d-flex justify-content-center">
+        {{ form_widget(form.save, {'label': 'Войти'}) }}
+</div>
+
+                
+                
+                
+                      {{ form_end(form) }}

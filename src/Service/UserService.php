@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Repository\Interfaces\UserRepositoryInterface;
-
+use App\Entity\User;
 
 class UserService {
     private $userRep;
@@ -13,12 +13,30 @@ class UserService {
         $this->userRep = $userRep;
     }
     
-    public function addUser() 
+    
+    
+    
+    
+    public function storeUser(User $userObj) 
     {
-        $this->userRep->getUser(10);
+        if ($userObj->getPhone()){
+            $userObj->setPhoneCanonical('+'.preg_replace('~\D~','',$userObj->getPhone()));
+        }
+        
+        
+        if($userObj->getId()){
+            $this->userRep->update($userObj);
+        } else {
+            $userObj->setKey(hex2bin(md5(uniqid(rand(), true))));
+            $this->userRep->add($userObj);
+        }
     }
     
-    
+    public function getUser($id): User 
+    {
+        $userObj = $this->userRep->get($id);
+        return $userObj;
+    }
     
     
 }

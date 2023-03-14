@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserFormType;
+use App\Form\RegisterFormType;
+use App\Form\LoginFormType;
+use App\Service\UserService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+    private $userServ;
+            
+    public function __construct(UserService $userServ)
+    {
+        $this->userServ = $userServ;
+    }
+            
+            
+            
     /**
      * @Route("/user", name="app_user")
      */
@@ -27,24 +39,42 @@ class UserController extends AbstractController
     /**
      * @Route("/user/register")
      */
-    public function register(): Response
+    public function register(Request $request): Response
     {
         $userObj = new User();
-//        $form = $this->createFormBuilder($userObj)
-//                ->add('name')
-//                ->add('nickName')
-//                ->add('save',SubmitType::class)
-//                ->getForm()->createView();
-                
-        $userObj->setName('test');
-         $form = $this->createForm(UserFormType::class)->createView();        
-                
-        return $this->render('user/register1.html.twig', [
+        $form = $this->createForm(RegisterFormType::class,$userObj);        
+         
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+             $userObj = $form->getData();
+             $this->userServ->storeUser($userObj);
+             return $this->redirect("/");
+         }
+//         $this->addFlash('error', 'test');
+//         $this->addFlash('success', 'test11');
+//         $this->addFlash('notice', 'test2');
+        return $this->renderForm('user/register1.html.twig', [
             'form' => $form,
         ]);
     }
     
-         
+    
+    /**
+     * @Route("/user/login")
+     */
+    
+        public function login(Request $request): Response
+        {
+            //return $this->redirect("/");
+            $form = $this->createForm(LoginFormType::class); 
+            return $this->renderForm('Dialog/login.html.twig', [
+            'form' => $form,
+            ]);
+            
+        }
+             
+             
+             
      /**
      * @Route("/user/register", methods={"POST"})
      */

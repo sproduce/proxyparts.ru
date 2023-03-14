@@ -8,6 +8,15 @@
         {% endblock %}
     </head>
     <body class="d-flex flex-column h-100">
+        {%  block dialog %}    
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div id="modal-dialog" class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" id="modal-content"> </div>
+                </div>
+            </div>
+        {% endblock %}
+        
+        
         <nav class="bg-light border-bottom">
             <div class="container d-flex flex-wrap">
                 <ul class="nav me-auto">
@@ -17,7 +26,7 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Контакты</a></li>
                 </ul>
                 <ul class="nav py-1">
-                    <li class="nav-item"><a href="/login" class="btn btn-sm btn-outline-secondary rounded-pill">Войти</a></li>
+                    <li class="nav-item"><button onclick="DialogUserSMin('/user/login');" class="btn btn-sm btn-outline-secondary rounded-pill">Войти</button></li>
                     <li class="nav-item ms-4"><a href="/user/register" class="btn btn-sm btn-outline-secondary rounded-pill">Регистрация</a></li>
                 </ul>
             </div>
@@ -51,11 +60,18 @@
             <span class="text-muted">ProxyParts 2023</span>
         </div>
     </footer>
+        
+        
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>       
     
+    <script src="/vendor/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/user.js?version="></script>
+    <script src="/js/ready.js?version="></script>
     
     {% block javascripts %}
          
-<script src="/vendor/js/bootstrap/bootstrap.min.js"></script>
+
     {% endblock %}
         
     </body>    
