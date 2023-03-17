@@ -15,6 +15,23 @@ class UserService {
     
     
     
+    private function notRepeatValue(User $userObj)
+    {
+        if ($this->userRep->isEmailExist($userObj) || $this->userRep->isPhoneExist($userObj)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    
+    
+    
+    public function changePasswd() 
+    {
+        
+    }
+    
     
     
     public function storeUser(User $userObj) 
@@ -28,7 +45,11 @@ class UserService {
             $this->userRep->update($userObj);
         } else {
             $userObj->setKey(hex2bin(md5(uniqid(rand(), true))));
-            $this->userRep->add($userObj);
+            $userObj->setPasswd(password_hash($userObj->getPasswd(),PASSWORD_DEFAULT));
+            if ($this->notRepeatValue($userObj)){
+                $this->userRep->add($userObj);
+            }
+            
         }
     }
     

@@ -10,20 +10,22 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class RegisterFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class,['trim' => true,])
+            ->add('name', TextType::class,['trim' => true,])
             ->add('passwd', RepeatedType::class,[
+                        'trim' => true,
                         'type' => PasswordType::class,
-                            'invalid_message' => 'The password fields must match.',
+                        'constraints' => [new Length(['min' => 7])],
+                        'invalid_message' => 'The password fields must match.',
                     ])
-            ->add('save',SubmitType::class);
+            ->add('submit',SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

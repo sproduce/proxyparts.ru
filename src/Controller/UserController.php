@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+use Symfony\Component\Form\FormError;
 
 
 class UserController extends AbstractController
@@ -48,7 +48,10 @@ class UserController extends AbstractController
          if ($form->isSubmitted() && $form->isValid()) {
              $userObj = $form->getData();
              $this->userServ->storeUser($userObj);
-             return $this->redirect("/");
+             
+             $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
+             
+             //return $this->redirect("/");
          }
 //         $this->addFlash('error', 'test');
 //         $this->addFlash('success', 'test11');

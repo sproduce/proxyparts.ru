@@ -93,15 +93,36 @@ class UserRepository implements UserRepositoryInterface
     
     
     public function isPhoneExist(User $userObj): bool {
-        $sql = "select count(user_id) from pp_user where user_id<>? and user_phone=?";
+        $sql = "select count(user_id) from pp_user where if(:id, user_id<>:id and user_phone=:phone, user_phone=:phone)";
         $sth = \Core_static::getPDOStatement($sql);
-        $sth->execute([$userObj->getId(),$userObj->getPhone()]);
+        $sth->execute([
+            ':id' => $userObj->getId(),
+            ':phone' => $userObj->getPhone()
+        ]);
         if ($sth->fetchColumn()){
             return true;
         } else {
             return false;
         }
     }
+    
+    public function isEmailExist(User $userObj): bool {
+        $sql = "select count(user_id) from pp_user where if(:id, user_id<>:id and user_email=:email, user_email=:email)";
+        
+        $sth = \Core_static::getPDOStatement($sql);
+        $sth->execute([
+            ':id' => $userObj->getId(),
+            ':email' => $userObj->getEmail()
+        ]);
+        if ($sth->fetchColumn()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
     
     
 }
