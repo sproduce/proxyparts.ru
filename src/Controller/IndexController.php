@@ -17,7 +17,7 @@ class IndexController extends AbstractController
     
     function __construct()
     {
-        $userId = \Core_static::checkAccess();
+        //$userId = \Core_static::checkAccess();
     }
     
     

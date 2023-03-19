@@ -4,7 +4,6 @@ class Core_static
 {
 
 private static $pdo = null;
-private static $userId = null;
 
 
 private static $pdo_host = 'localhost';
@@ -13,50 +12,7 @@ private static $pdo_user = 'proxyparts';
 private static $pdo_passwd = 'proxyparts';
 
 private static $pdoStatement;
-private static $noticeArray;
 
-
-
-
-
-
-
-
-
-public static function checkAccess()
-{
-    if (is_null(self::$userId)){
-        self::$userId = 0;
-        $token = filter_input(INPUT_COOKIE,'aToken');
-        if ($token){
-            JWT::loadPublicKeyFromFile("../app/config/public.key");
-            $userArray = JWT::decode($token);
-            if ($userArray){
-                if($userArray["iss"] == self::$domainName){
-                    self::$userId = $userArray["userid"];
-                }
-            } else {
-                setcookie('aToken', null, -1, '/');
-            }
-        }
-    } 
-    
-    return self::$userId;
-}
-
-
-
-
- public static function add_notice($notice)
-    {
-     
-        setcookie("notice_text",$notice,time()+100,'/');
-        
-        
-    }
-
-  
-   
     
     
     public static function loadPdo(): PDO

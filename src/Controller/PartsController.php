@@ -17,16 +17,23 @@ class PartsController extends AbstractController
     
     function __construct()
     {
-        $userId = \Core_static::checkAccess();
+        
     }
     
     
      /**
-     * @Route("/search")
+     * @Route("/search/{partsNumber}")
      */
-    public function search() 
+    public function search($partsNumber = null,Request $request): Response 
     {
-        return $this->redirect("/");
+        if (is_null($partsNumber)){
+            $partsNumber = $request->query->get('partsNumber');
+        }
+        
+        
+       return $this->render('parts/searchResult.html.twig', [
+            'partsNumber' => $partsNumber,
+        ]);
     }
     
 }
