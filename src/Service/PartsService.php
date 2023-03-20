@@ -14,6 +14,26 @@ class PartsService {
     }
     
     
+    private function cleanNumber($number)
+    {
+        $number_tmp = preg_replace("/[^a-z0-9]/","",strtolower(trim($number)));
+
+        return $number_tmp;
+    }  
+    
+    public function searchParts($number)
+    {
+        $clearNumber = $this->cleanNumber($number);
+        $result = $this->partsRep->search($clearNumber);
+        $historyObj = $this->partsRep->searchPartsHistory($clearNumber);
+        $historyObj->setNumber($clearNumber);
+        $historyObj->setRequest($historyObj->getRequest()+1);
+        $historyObj->setUpdate(date('Y-m-d h:i:s', time()));
+        
+        $this->partsRep->storePartsHistory($historyObj);
+        
+        return $result;
+    }
     
     
 }

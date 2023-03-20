@@ -1,28 +1,23 @@
 <?php
 namespace App\Entity;
-use App\Entity\Brand;
 
 
 
-class Parts
+class PartsRead
 {
     protected $id;
-    protected $brandId;
     protected $uuid;
     protected $number;
     protected $numberText;
     protected $info;
-    protected Brand $brand;
+    protected $brand;
+    protected $brandId;
+    protected $brandUuid;
     
-    
-    
+
     
     public function getId() {
         return $this->id;
-    }
-
-    public function getBrandId() {
-        return $this->brandId;
     }
 
     public function getUuid() {
@@ -41,16 +36,20 @@ class Parts
         return $this->info;
     }
 
-    public function getBrand(): Brand {
+    public function getBrand() {
         return $this->brand;
+    }
+
+    public function getBrandId() {
+        return $this->brandId;
+    }
+
+    public function getBrandUuid() {
+        return $this->brandUuid;
     }
 
     public function setId($id): void {
         $this->id = $id;
-    }
-
-    public function setBrandId($brandId): void {
-        $this->brandId = $brandId;
     }
 
     public function setUuid($uuid): void {
@@ -69,10 +68,17 @@ class Parts
         $this->info = $info;
     }
 
-    public function setBrand(Brand $brand): void {
+    public function setBrand($brand): void {
         $this->brand = $brand;
     }
 
+    public function setBrandId($brandId): void {
+        $this->brandId = $brandId;
+    }
+
+    public function setBrandUuid($brandUuid): void {
+        $this->brandUuid = $brandUuid;
+    }
 
 
 }

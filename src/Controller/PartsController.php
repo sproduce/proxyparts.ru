@@ -24,16 +24,21 @@ class PartsController extends AbstractController
      /**
      * @Route("/search/{partsNumber}")
      */
-    public function search($partsNumber = null,Request $request): Response 
+    public function search($partsNumber = null, Request $request, \App\Service\PartsService $partsServ): Response 
     {
         if (is_null($partsNumber)){
             $partsNumber = $request->query->get('partsNumber');
         }
-        
-        
-       return $this->render('parts/searchResult.html.twig', [
+        if ($partsNumber){
+            $partsServ->searchParts($partsNumber);
+            return $this->render('parts/searchResult.html.twig', [
             'partsNumber' => $partsNumber,
-        ]);
+            ]);
+        } else {
+            $this->addFlash('error', 'Введите номер для поиска');
+            return $this->redirect("/");
+        }
+       
     }
     
 }
