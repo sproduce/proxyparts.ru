@@ -5,7 +5,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     protected $name;
     protected $nickName;
@@ -45,7 +45,7 @@ class User
         return $this->passwd;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->passwd;
     }
@@ -54,6 +54,10 @@ class User
     {
         return (string) $this->email;
     }
+    
+    
+    
+    
     
     public function eraseCredentials()
     {

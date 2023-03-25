@@ -1,5 +1,7 @@
 <?php
+namespace App\Lib;
 use Sproduce\JWT\JWT;
+
 class Core_static
 {
 
@@ -15,10 +17,10 @@ private static $pdoStatement;
 
     
     
-    public static function loadPdo(): PDO
+    public static function loadPdo(): \PDO
     {
         if (!self::$pdo){
-            self::$pdo = new PDO('mysql:host='.self::$pdo_host.';dbname='.self::$pdo_db.';charset=utf8', self::$pdo_user, self::$pdo_passwd);
+            self::$pdo = new \PDO('mysql:host='.self::$pdo_host.';dbname='.self::$pdo_db.';charset=utf8', self::$pdo_user, self::$pdo_passwd);
             self::$pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING );
         }
         return self::$pdo;
@@ -26,7 +28,7 @@ private static $pdoStatement;
     
     
   
-     public static function getPDOStatement($sql): PDOStatement
+     public static function getPDOStatement($sql): \PDOStatement
     {
         $pdo = self::loadPdo();
         $md5sql = md5($sql);

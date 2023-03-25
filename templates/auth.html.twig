@@ -5,6 +5,7 @@
         <title>{% block title %}ProxyParts{% endblock %}</title>
         {% block stylesheets %}
             <link href="/vendor/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+            <link href="/vendor/css/all.min.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body class="d-flex flex-column h-100">
@@ -17,7 +18,8 @@
                     <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Контакты</a></li>
                 </ul>
                 <ul class="nav py-1">
-                    
+                    {{ app.user.email }}
+                    <li class="nav-item ms-4"><a href="/logout" class="btn btn-sm btn-outline-secondary rounded-pill">Выйти</a></li>
                 </ul>
             </div>
         </nav>

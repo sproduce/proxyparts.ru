@@ -1,27 +1,26 @@
 <div class="modal-header text-center bg-light">
-    <h4 class="modal-title">Вход</h4>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <h4 class="modal-title w-100">Вход</h4>
+    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
-{{ form_start(form) }}
+<form id="loginPasswd"  method="POST" action="/user/login">
+    <div class="modal-body mx-3">
+        <div class="input-group mb-3">
+            <span class="input-group-text" ><i class="far fa-envelope"></i></span>
+            <input type="email" name="email" class="form-control" placeholder="Почта" required>
+        </div>
 
-<div class="modal-body mx-3">
-            
-            
-              
-                {{ form_row(form.email, { 'label': 'Почта' }) }}
-                {{ form_row(form.passwd, {'label': 'Пароль'}) }}
+        <div class="input-group mb-3">
+            <span class="input-group-text" ><i class="fas fa-key"></i></span>
+            <input type="password" name="passwd"  class="form-control" placeholder="Пароль" required>
+        </div>
+    </div>
                 
-      
-</div>
-    
 
+    <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-outline-info my-2 my-sm-0">Войти</button>
+    </div>
 
-<div class="modal-footer d-flex justify-content-center">
-        {{ form_widget(form.save, {'label': 'Войти'}) }}
-</div>
-
+</form>
                 
-                
-                
-                      {{ form_end(form) }}
+                    

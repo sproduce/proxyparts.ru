@@ -13,14 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Form\FormError;
 
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class UserController extends AbstractController
 {
-    private $userServ;
+    private $userServ,$userObj;
             
-    public function __construct(UserService $userServ)
+    public function __construct(UserService $userServ, Security $security)
     {
         $this->userServ = $userServ;
+        $this->userObj = $security->getUser();
     }
             
             
@@ -41,6 +45,7 @@ class UserController extends AbstractController
      */
     public function register(Request $request): Response
     {
+        //var_dump($this->userObj);
         $userObj = new User();
         $form = $this->createForm(RegisterFormType::class,$userObj);        
          
@@ -49,9 +54,9 @@ class UserController extends AbstractController
              $userObj = $form->getData();
              $this->userServ->storeUser($userObj);
              
-             $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
+            // $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
              
-             //return $this->redirect("/");
+             return $this->redirect("/");
          }
 //         $this->addFlash('error', 'test');
 //         $this->addFlash('success', 'test11');
@@ -63,32 +68,26 @@ class UserController extends AbstractController
     
     
     /**
-     * @Route("/user/login")
+     * @Route("/user/login", name="app_login")
      */
-    
-        public function login(Request $request): Response
-        {
-            //return $this->redirect("/");
-            $form = $this->createForm(LoginFormType::class); 
-            return $this->renderForm('Dialog/login.html.twig', [
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
+        //return $this->redirect("/");
+        $form = $this->createForm(LoginFormType::class); 
+        return $this->renderForm('Dialog/login.html.twig', [
             'form' => $form,
             ]);
             
-        }
-             
-             
-             
-     /**
-     * @Route("/user/register", methods={"POST"})
-     */
-    public function storeUser(Request $request) 
-    {
-        $user = new User();
-        
-        //echo $this->getParameter('app.google_capthca_secret');
-        return $this->redirect("/");
     }
-    
-    
-    
+
+   
+        
+    /**
+     * @Route("/logout", name="app_logout", methods={"GET"})
+     */
+    public function logout(): void
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
 }

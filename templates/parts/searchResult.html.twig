@@ -1,4 +1,4 @@
-{% extends "index.html.twig" %}
+{% extends  app.user ? "auth.html.twig":"index.html.twig" %}
 
 
 {% block body %}

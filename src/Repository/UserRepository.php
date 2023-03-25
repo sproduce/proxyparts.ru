@@ -3,14 +3,14 @@ namespace App\Repository;
 
 use App\Repository\Interfaces\UserRepositoryInterface;
 use App\Entity\User;
-
+use App\Lib\Core_static;
 
 class UserRepository implements UserRepositoryInterface
 {
     private $dbh;
     public function __construct()
     {
-        $this->dbh = \Core_static::loadPdo();
+        $this->dbh = Core_static::loadPdo();
     }
     
     
@@ -27,11 +27,35 @@ class UserRepository implements UserRepositoryInterface
                        user_key_md5 as keyMd5
                 from pp_user where user_id=?";
         
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$userId]);
         $result = $sth->fetchObject("App\Entity\User");
         return $result ?? new User();
     }
+    
+    
+    
+    public function getUserByEmail($email): User
+    {
+        $sql = "select user_id as id,
+                       user_name as name,
+                       user_nickname as nickname,
+                       user_passwd as passwd,
+                       user_email as email,
+                       user_telegram_chat_id as telegramId,
+                       user_phone as phone,
+                       user_phone_canonical as phoneCanonical,
+                       user_key_md5 as keyMd5
+                from pp_user where user_email=?";
+        
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$email]);
+        $result = $sth->fetchObject("App\Entity\User");
+        return $result ? $result: new User();
+    }
+    
+    
+    
     
     
     public function add(User $userObj): User {
@@ -44,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
                                      user_phone_canonical,
                                      user_key_md5) 
                         values(?,?,?,?,?,?,?,?)";   
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([
             $userObj->getName(),
             $userObj->getNickName(),
@@ -75,7 +99,7 @@ class UserRepository implements UserRepositoryInterface
                                      user_phone_canonical=?,
                                      user_key_md5=? 
                         where user_id=?";
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([
             $userObj->getName(),
             $userObj->getNickName(),
@@ -94,7 +118,7 @@ class UserRepository implements UserRepositoryInterface
     
     public function isPhoneExist(User $userObj): bool {
         $sql = "select count(user_id) from pp_user where if(:id, user_id<>:id and user_phone=:phone, user_phone=:phone)";
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([
             ':id' => $userObj->getId(),
             ':phone' => $userObj->getPhone()
@@ -109,7 +133,7 @@ class UserRepository implements UserRepositoryInterface
     public function isEmailExist(User $userObj): bool {
         $sql = "select count(user_id) from pp_user where if(:id, user_id<>:id and user_email=:email, user_email=:email)";
         
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([
             ':id' => $userObj->getId(),
             ':email' => $userObj->getEmail()

@@ -18,6 +18,7 @@ class LoginFormType extends AbstractType
             ->add('email', EmailType::class)
             ->add('passwd', PasswordType::class)
             ->add('save',SubmitType::class);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

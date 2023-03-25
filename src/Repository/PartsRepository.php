@@ -3,14 +3,14 @@ namespace App\Repository;
 
 use App\Repository\Interfaces\PartsRepositoryInterface;
 use App\Entity\PartsHistory;
-
+use App\Lib\Core_static;
 
 class PartsRepository implements PartsRepositoryInterface
 {
     private $dbh;
     public function __construct()
     {
-        $this->dbh = \Core_static::loadPdo();
+        $this->dbh = Core_static::loadPdo();
     }
     
     
@@ -32,7 +32,7 @@ class PartsRepository implements PartsRepositoryInterface
                        pb.parts_brand_id=pn.parts_number_parts_brand_id and
                        pn.parts_number=?";
         
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$number]);
         
         $result = $sth->fetchAll(\PDO::FETCH_CLASS,"App\Entity\PartsRead");
@@ -51,7 +51,7 @@ class PartsRepository implements PartsRepositoryInterface
                 where search_history_number=?";
         
         
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$number]);
         $result = $sth->fetchObject("App\Entity\PartsHistory");
         
@@ -69,11 +69,11 @@ class PartsRepository implements PartsRepositoryInterface
                 from pp_search_history where search_history_id=?";
         
         
-        $sth = \Core_static::getPDOStatement($sql);
+        $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$id]);
         $result = $sth->fetchObject("App\Entity\PartsHistory");
         
-        return $result ?? new PartsHistory();
+        return $result ? $result : new PartsHistory();
     }
     
     
@@ -83,11 +83,11 @@ class PartsRepository implements PartsRepositoryInterface
         if ($partsHistoryObj->getId()){
             $lastIncrement = $partsHistoryObj->getId();
             $sql = "update pp_search_history set search_history_request=?,search_history_update=? where search_history_id=?";
-            $sth = \Core_static::getPDOStatement($sql);
+            $sth = Core_static::getPDOStatement($sql);
             $sth->execute([$partsHistoryObj->getRequest(),$partsHistoryObj->getUpdate(),$partsHistoryObj->getId()]);
         } else {
             $sql = "insert into pp_search_history (search_history_number,search_history_request,search_history_update) values(?,?,?)";
-            $sth = \Core_static::getPDOStatement($sql);
+            $sth = Core_static::getPDOStatement($sql);
             $sth->execute([$partsHistoryObj->getNumber(), $partsHistoryObj->getRequest(), $partsHistoryObj->getUpdate()]);
             $lastIncrement = $this->dbh->lastInsertId();
         }
