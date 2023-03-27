@@ -1,0 +1,14 @@
+{% extends  app.user ? "auth.html.twig":"index.html.twig" %}
+
+
+{% block body %}
+       О проекте
+ 
+{% endblock %}
+
+
+
+{% block javascripts %}
+      {{ parent() }}
+
+{% endblock %}

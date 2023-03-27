@@ -24,19 +24,19 @@ class IndexController extends AbstractController
     /**
      * @Route("/")
      */
-    public function show(\App\Service\UserService $userServ): Response
+    public function show(): Response
     {
-        return $this->render('index.html.twig');
+        return $this->render('Index/index.html.twig');
     }
     
     
-    /**
-     * @Route("/register", methods={"GET"})
+     /**
+     * @Route("/about")
      */
-    public function register(): Response
+    public function about(): Response
     {
-        return $this->render('user/register.html.twig');
+        return $this->render('Index/about.html.twig');
     }
     
-   
+  
 }

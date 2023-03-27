@@ -20,18 +20,14 @@ security:
             pattern: ^/
             remote_user:
                 provider: auth_user_provider
-             
-
-                
-            
-                
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
                 check_path: app_login
                 username_parameter: email    
                 password_parameter: passwd
-                
-                
             logout:
                 path: app_logout
+                target: /
+    access_control:
+        - { path: '^/user/profile', roles: ROLE_USER }

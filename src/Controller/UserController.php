@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterFormType;
-use App\Form\LoginFormType;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,25 +26,13 @@ class UserController extends AbstractController
         $this->userObj = $security->getUser();
     }
             
-            
-            
-    /**
-     * @Route("/user", name="app_user")
-     */
-    public function index(): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
-    
-    
+     
     /**
      * @Route("/user/register")
      */
     public function register(Request $request): Response
     {
-        //var_dump($this->userObj);
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         $userObj = new User();
         $form = $this->createForm(RegisterFormType::class,$userObj);        
          
@@ -61,7 +48,7 @@ class UserController extends AbstractController
 //         $this->addFlash('error', 'test');
 //         $this->addFlash('success', 'test11');
 //         $this->addFlash('notice', 'test2');
-        return $this->renderForm('user/register1.html.twig', [
+        return $this->renderForm('User/register1.html.twig', [
             'form' => $form,
         ]);
     }
@@ -73,10 +60,8 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         //return $this->redirect("/");
-        $form = $this->createForm(LoginFormType::class); 
-        return $this->renderForm('Dialog/login.html.twig', [
-            'form' => $form,
-            ]);
+        //$form = $this->createForm(LoginFormType::class); 
+        return $this->renderForm('Dialog/login.html.twig');
             
     }
 
@@ -89,5 +74,16 @@ class UserController extends AbstractController
     {
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
+    
+
+
+    
+    /**
+     * @Route("/user/profile")
+    */ 
+    public function profile(): Response
+    {
+        return $this->render('User/profile.html.twig');
     }
 }
