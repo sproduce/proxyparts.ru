@@ -9,7 +9,7 @@ class PartsHistory
     protected $id=null;
     protected $number;
     protected $request=0;
-    protected $update;
+    protected $updateDate;
 
     
     public function getId() {
@@ -25,7 +25,7 @@ class PartsHistory
     }
 
     public function getUpdate() {
-        return $this->update;
+        return $this->updateDate;
     }
 
 
@@ -42,7 +42,7 @@ class PartsHistory
     }
 
     public function setUpdate($update): void {
-        $this->update = $update;
+        $this->updateDate = $update;
     }
 
 

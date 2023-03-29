@@ -26,10 +26,10 @@ class PartsService {
         $clearNumber = $this->cleanNumber($number);
         $result = $this->partsRep->search($clearNumber);
         $historyObj = $this->partsRep->searchPartsHistory($clearNumber);
+        
         $historyObj->setNumber($clearNumber);
         $historyObj->setRequest($historyObj->getRequest()+1);
-        $historyObj->setUpdate(date('Y-m-d h:i:s', time()));
-        
+        $historyObj->setUpdate(date('Y-m-d H:i:s', time()));
         $this->partsRep->storePartsHistory($historyObj);
         
         return $result;

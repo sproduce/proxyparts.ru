@@ -10,8 +10,6 @@ interface UserRepositoryInterface {
     public function isPhoneExist(User $userObj): bool;
     public function isEmailExist(User $userObj): bool;
     
-    public function update(User $userObj): User;
-    public function add(User $userObj): User;
-    
+    public function store(User $userObj): User;
     
 }

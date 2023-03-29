@@ -7,50 +7,29 @@
 
 
 {% block body %}
-    <form method="post" action="/register">
-        <div class="form-group row justify-content-center">
-            <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
-            <div class="col-sm-4">
-                <input name="e-mail" type="email" class="form-control form-control-sm" id="inputEmail" placeholder="Email" required>
+   {#   {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
             </div>
+        {% endfor %}#}
+    
+    <div class="row d-flex justify-content-center">
+        <div class="col-6 border border-1 p-3">
+            {{ form_start(form) }}
+                {{ form_row(form.email, { 'label': 'Почта' }) }}
+                {{ form_row(form.name, { 'label': 'Имя' }) }}
+                {{ form_row(form.passwd.first, {'label': 'Пароль'}) }}
+                {{ form_row(form.passwd.second, {'label': 'Пароль еще раз'}) }}
+                {{ form_row(form.submit, {'label': 'Зарегистрироваться'}) }}
+            {{ form_end(form) }}
         </div>
-        <div class="form-group row justify-content-center">
-            <label for="userPasswd" class="col-sm-3 col-form-label">Пароль</label>
-            <div class="col-sm-4">
-                <input name="userPasswd" id="userPasswd" type="password" class="form-control form-control-sm" id="inputPassword" placeholder="Пароль" required>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center">
-            <label for="userPasswdRepeat" class="col-sm-3 col-form-label">Пароль еще раз</label>
-            <div class="col-sm-4">
-                <input name="userPasswdRepeat" id="userPasswdRepeat" type="password" class="form-control form-control-sm" id="inputPassword1" placeholder="Повторить пароль" required>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-10 g-recaptcha"
-             data-sitekey="6LdPyqAkAAAAAJuCNU2PCkZZtbajw8A4XJWLR0qJ"
-             data-callback="onCompleted"
-             data-size="invisible">
-        </div>     
-        </div>
-        <div class="form-group row justify-content-center mt-4">
-            <div class="col-2">
-                <button type="submit" class="btn btn-sm btn-outline-info">Зарегистрироваться</button>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center mt-4">
-            <div class="col-4">
-                This site is protected by reCAPTCHA and the Google
-                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-            </div>
-        </div>
-    </form>
+    </div>
+ 
 {% endblock %}
 
 
 
 {% block javascripts %}
-    <script src="https://www.google.com/recaptcha/api.js?hl=ru" async defer></script>
+      {{ parent() }}
 
 {% endblock %}

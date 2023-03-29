@@ -13,7 +13,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected $email;
     protected $phone;
     protected $phoneCanonical;
-    protected $telegramId;
+    protected $telegramChatId;
     protected $keyMd5;
     protected $id;
     
@@ -24,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getTelegramId() {
-        return $this->telegramId;
+        return $this->telegramChatId;
     }
 
         
@@ -126,7 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function setTelegramId($telegramId): void {
-        $this->telegramId = $telegramId;
+        $this->telegramChatId = $telegramId;
     }
 
 

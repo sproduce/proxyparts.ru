@@ -12,6 +12,8 @@ class Parts
     protected $number;
     protected $numberText;
     protected $info;
+    protected $parentId;
+    protected Parts $parts;
     protected Brand $brand;
     
     

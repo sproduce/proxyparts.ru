@@ -36,22 +36,27 @@ class UserService {
     
     public function storeUser(User $userObj) 
     {
-        if ($userObj->getPhone()){
-            $userObj->setPhoneCanonical('+'.preg_replace('~\D~','',$userObj->getPhone()));
-        }
+//        if ($userObj->getPhone()){
+//            $userObj->setPhoneCanonical('+'.preg_replace('~\D~','',$userObj->getPhone()));
+//        }
         
-        
+       
         if($userObj->getId()){
-            $this->userRep->update($userObj);
+            ;
         } else {
             $userObj->setKey(hex2bin(md5(uniqid(rand(), true))));
             $userObj->setPasswd(password_hash($userObj->getPasswd(),PASSWORD_DEFAULT));
-            if ($this->notRepeatValue($userObj)){
-                $this->userRep->add($userObj);
-            }
-            
         }
+        
+        if ($this->notRepeatValue($userObj)){
+               return $this->userRep->store($userObj);
+        }
+        
+        return null;
     }
+    
+    
+    
     
     public function getUser($id): User 
     {

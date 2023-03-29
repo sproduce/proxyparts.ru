@@ -29,11 +29,13 @@ class PartsController extends AbstractController
      */
     public function search($partsNumber = null, Request $request, \App\Service\PartsService $partsServ): Response 
     {
+        
         if (is_null($partsNumber)){
             $partsNumber = $request->query->get('partsNumber');
         }
         if ($partsNumber){
             $partsServ->searchParts($partsNumber);
+            
             return $this->render('parts/searchResult.html.twig', [
             'partsNumber' => $partsNumber,
             ]);

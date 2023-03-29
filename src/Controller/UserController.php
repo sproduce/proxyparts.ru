@@ -37,18 +37,21 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterFormType::class,$userObj);        
          
         $form->handleRequest($request);
-         if ($form->isSubmitted() && $form->isValid()) {
-             $userObj = $form->getData();
-             $this->userServ->storeUser($userObj);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userObj = $form->getData();
+            if ($this->userServ->storeUser($userObj)){
+                return $this->redirect("/");
+            } else {
+                $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
+            }
+            
              
-            // $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
              
-             return $this->redirect("/");
-         }
+        }
 //         $this->addFlash('error', 'test');
 //         $this->addFlash('success', 'test11');
 //         $this->addFlash('notice', 'test2');
-        return $this->renderForm('User/register1.html.twig', [
+        return $this->renderForm('User/register.html.twig', [
             'form' => $form,
         ]);
     }
@@ -59,10 +62,8 @@ class UserController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        //return $this->redirect("/");
-        //$form = $this->createForm(LoginFormType::class); 
+       
         return $this->renderForm('Dialog/login.html.twig');
-            
     }
 
    

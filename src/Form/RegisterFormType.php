@@ -22,8 +22,10 @@ class RegisterFormType extends AbstractType
             ->add('passwd', RepeatedType::class,[
                         'trim' => true,
                         'type' => PasswordType::class,
-                        'constraints' => [new Length(['min' => 7])],
-                        'invalid_message' => 'The password fields must match.',
+                        'constraints' => [new Length(['min' => 7,
+                            'minMessage' => 'Пароль не может быть короче {{ limit }} символов',
+                            ])],
+                        'invalid_message' => 'Пароли не совпадают.',
                     ])
             ->add('submit',SubmitType::class);
     }
