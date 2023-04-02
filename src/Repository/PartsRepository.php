@@ -20,7 +20,7 @@ class PartsRepository implements PartsRepositoryInterface
     
     
     
-    public function search($number) 
+    public function search($number) //return readModel
     {
         $sql = 'select pn.id,
                        pn.number, 
@@ -91,21 +91,33 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
+    
+    public function getPartsByBrand($brandId,$page = null) 
+    {
+        $sql = 'select';
+    }
+    
+    public function searchParts($number) 
+    {
+        $sql = 'select * from parts_number where number=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$number]);
+        $result = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\Parts');
+        
+    }
+    
+    
     public function getPart($partId): Parts 
     {
-        $sql = 'select  parts_number_id as id,
-                        parts_number as number,
-                        parts_number_text as numberText
-                        parts_number_parts_brand_id as brandId,
-                        parts_number_info as info
-                        parts_number_uuid as uuid,
-                        parts_number_pId as pId';
+        $sql = 'select * from parts_number where id=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$partId]);
+        $result = $sth->fetchObject('App\Entity\Parts')?: new Parts();
+        
+        $result->setBrand($this->getBrand($result->getId()));
         
         
-        
-        
-        
-        
+        return $result;
     }
     
     
@@ -113,22 +125,30 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function getBrand($brandId): Brand 
     {
-        $sql = 'select parts_brand_id as id,
-                       parts_brand_name as name,
-                       parts_brand_uuid	as uuid,
-                       parts_brand_pId as pid	
-                where parts_brand_id=?';
+        $sql = 'select * from parts_brand where id=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$brandId]);
+        $result = $sth->fetchObject('App\Entity\Brand');
+        
+        return $result ?: new Brand;
     }
     
     
     
     public function getBrandByName($brand): Brand 
     {
-        $sql = 'select parts_brand_id as id,
-                       parts_brand_name as name,
-                       parts_brand_uuid	as uuid,
-                       parts_brand_pId as pid	
-                where parts_brand_name=?';
+        $sql = 'select * from parts_brand where name=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$brand]);
+        $result = $sth->fetchObject('App\Entity\Brand');
+        
+        return $result ?: new Brand;
+    }
+    
+    
+    public function  getParts($brandId,$page = null)
+    {
+        
     }
     
     

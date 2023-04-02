@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormError;
 
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends AbstractController
 {
@@ -25,24 +25,43 @@ class UserController extends AbstractController
         $this->userServ = $userServ;
         $this->userObj = $security->getUser();
     }
-            
+          
+    
+    
+    private function checkCapture()
+    {
+        
+    }
+    
+    private function authNewUser(User $userObj)
+    {
+        $token = new UsernamePasswordToken($userObj,null,$userObj->getRoles());
+        //$this->container->get('security.token_storage')->setToken($token);
+    }
+    
      
     /**
-     * @Route("/user/register")
+     * @Route("/user/register", name="app_register")
      */
     public function register(Request $request): Response
     {
-        //$this->denyAccessUnlessGranted('ROLE_USER');
         $userObj = new User();
         $form = $this->createForm(RegisterFormType::class,$userObj);        
          
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $userObj = $form->getData();
-            if ($this->userServ->storeUser($userObj)){
-                return $this->redirect("/");
-            } else {
-                $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
+            $recaptcha = new \ReCaptcha\ReCaptcha($_ENV['GOOGLE_CAPTHCA_SECRET']);
+            $gToken = $request->get('g-recaptcha-response');
+            $clientIp = $request->getClientIp();
+            $resp = $recaptcha->verify($gToken, $clientIp);
+            if($resp->isSuccess()){
+                $userObj = $form->getData();
+                if ($this->userServ->storeUser($userObj)){
+                    $this->authNewUser($userObj);
+                    return $this->redirect("/");
+                } else {
+                    $form->get('email')->addError(new FormError('Такой адрес уже зарегистрирован'));
+                }
             }
             
              

@@ -21,16 +21,27 @@ class PartsService {
         return $number_tmp;
     }  
     
-    public function searchParts($number)
+    
+    
+    private function updateHistory($cleanNumber)
     {
-        $clearNumber = $this->cleanNumber($number);
-        $result = $this->partsRep->search($clearNumber);
-        $historyObj = $this->partsRep->searchPartsHistory($clearNumber);
+        $historyObj = $this->partsRep->searchPartsHistory($cleanNumber);
         
-        $historyObj->setNumber($clearNumber);
+        $historyObj->setNumber($cleanNumber);
         $historyObj->setRequest($historyObj->getRequest()+1);
         $historyObj->setUpdate(date('Y-m-d H:i:s', time()));
         $this->partsRep->storePartsHistory($historyObj);
+    }
+    
+    
+    
+    
+    public function searchParts($number)
+    {
+        $cleanNumber = $this->cleanNumber($number);
+        $this->updateHistory($cleanNumber);
+        $result = $this->partsRep->search($cleanNumber);
+        
         
         return $result;
     }

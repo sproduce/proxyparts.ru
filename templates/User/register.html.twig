@@ -15,12 +15,20 @@
     
     <div class="row d-flex justify-content-center">
         <div class="col-6 border border-1 p-3">
-            {{ form_start(form) }}
+            {{ form_start(form,{'attr': {'id': 'registerForm'}}) }}
                 {{ form_row(form.email, { 'label': 'Почта' }) }}
                 {{ form_row(form.name, { 'label': 'Имя' }) }}
                 {{ form_row(form.passwd.first, {'label': 'Пароль'}) }}
                 {{ form_row(form.passwd.second, {'label': 'Пароль еще раз'}) }}
+                <div class="mb-3"> This site is protected by reCAPTCHA and the Google
+                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
                 {{ form_row(form.submit, {'label': 'Зарегистрироваться'}) }}
+                <div class="g-recaptcha"
+                    data-sitekey="6LdPyqAkAAAAAJuCNU2PCkZZtbajw8A4XJWLR0qJ"
+                    data-callback="onCompleted"
+                    data-size="invisible">
+                </div>    
             {{ form_end(form) }}
         </div>
     </div>
@@ -31,5 +39,19 @@
 
 {% block javascripts %}
       {{ parent() }}
-
+    <script src="https://www.google.com/recaptcha/api.js?hl=ru" async defer></script>
+    <script>
+        $('#registerForm').submit(function(event){
+            if(grecaptcha.getResponse()){
+                return true;
+            } 
+            grecaptcha.execute();  
+            return false;
+        });
+        
+      function onCompleted(token){
+        $('#registerForm').submit();
+  }  
+       
+    </script>
 {% endblock %}

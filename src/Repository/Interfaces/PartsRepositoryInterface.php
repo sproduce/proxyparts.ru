@@ -12,6 +12,9 @@ interface PartsRepositoryInterface {
     public function search($number);
     
     public function getPart($partId): Parts;
+    public function getParts($brandId,$page = null);
+    public function searchParts($number);
+    
     
     public function searchPartsHistory($number): PartsHistory;
     public function getPartsHistory($id): PartsHistory;
