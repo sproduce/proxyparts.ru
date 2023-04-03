@@ -11,8 +11,35 @@
     <body class="d-flex flex-column h-100">
         {%  block dialog %}    
             <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div id="modal-dialog" class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content" id="modal-content"> </div>
+                <div id="modal-dialog" class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content" id="modal-content"> 
+                        <div class="modal-header text-center bg-light">
+    <h4 class="modal-title w-100">Вход</h4>
+    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<form id="loginPasswd"  method="POST" action="/user/login">
+    <div class="modal-body mx-3">
+        <div class="input-group mb-3">
+            <span class="input-group-text" ><i class="far fa-envelope"></i></span>
+            <input type="email" name="email" class="form-control" placeholder="Почта" required>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" ><i class="fas fa-key"></i></span>
+            <input type="password" name="passwd"  class="form-control" placeholder="Пароль" required>
+        </div>
+    </div>
+                
+
+    <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-outline-info my-2 my-sm-0">Войти</button>
+    </div>
+
+</form>
+                
+                    
+                    </div>
                 </div>
             </div>
         {% endblock %}
@@ -71,8 +98,11 @@
     <script src="/js/ready.js?version="></script>
     
     {% block javascripts %}
-         
-
+        <script>
+            $(function(){
+                 $('#modal').modal('show');
+            });
+        </script>
     {% endblock %}
         
     </body>    

@@ -26,6 +26,8 @@ security:
                 check_path: app_login
                 username_parameter: email    
                 password_parameter: passwd
+            login_throttling:
+                max_attempts: 3 
             logout:
                 path: app_logout
                 target: /

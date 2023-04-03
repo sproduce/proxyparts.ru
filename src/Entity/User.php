@@ -16,6 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected $telegramChatId;
     protected $keyMd5;
     protected $id;
+    protected $role;
     
     
     
@@ -69,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         //$roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = $this->role;
 
         return array_unique($roles);
     }

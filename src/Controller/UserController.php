@@ -26,13 +26,7 @@ class UserController extends AbstractController
         $this->userObj = $security->getUser();
     }
           
-    
-    
-    private function checkCapture()
-    {
-        
-    }
-    
+ 
     private function authNewUser(User $userObj)
     {
         $token = new UsernamePasswordToken($userObj,null,$userObj->getRoles());
@@ -81,8 +75,9 @@ class UserController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-       
-        return $this->renderForm('Dialog/login.html.twig');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->renderForm('authIndex.html.twig');
     }
 
    
@@ -106,4 +101,18 @@ class UserController extends AbstractController
     {
         return $this->render('User/profile.html.twig');
     }
+    
+    
+    
+    /**
+     * @Route("/user/test")
+    */ 
+    public function test(): Response
+    {
+        return $this->render('authIndex.html.twig');
+    }
+    
+    
+    
+    
 }

@@ -12,9 +12,6 @@ class PartsRead
     protected $info;
     protected $brand;
     protected $brandId;
-    protected $brandUuid;
-    
-
     
     public function getId() {
         return $this->id;
@@ -44,10 +41,6 @@ class PartsRead
         return $this->brandId;
     }
 
-    public function getBrandUuid() {
-        return $this->brandUuid;
-    }
-
     public function setId($id): void {
         $this->id = $id;
     }
@@ -75,10 +68,5 @@ class PartsRead
     public function setBrandId($brandId): void {
         $this->brandId = $brandId;
     }
-
-    public function setBrandUuid($brandUuid): void {
-        $this->brandUuid = $brandUuid;
-    }
-
 
 }
