@@ -30,7 +30,7 @@ class IndexController extends AbstractController
     }
     
     
-     /**
+    /**
      * @Route("/about")
      */
     public function about(): Response
@@ -38,5 +38,35 @@ class IndexController extends AbstractController
         return $this->render('Index/about.html.twig');
     }
     
+    
+    
+    /**
+     * @Route("/contact")
+     */
+    public function contact(): Response
+    {
+        return $this->render('Index/contact.html.twig');
+    }
+    
+    
+    
+    /**
+     * @Route("/news")
+     */
+    public function news(): Response
+    {
+        return $this->render('Index/news.html.twig');
+    }
   
+    
+    /**
+     * @Route("/apiInfo")
+     */
+    public function apiInfo(): Response
+    {
+        return $this->render('Index/apiInfo.html.twig');
+    }
+    
+    
+    
 }

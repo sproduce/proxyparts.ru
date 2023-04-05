@@ -10,7 +10,7 @@ class PartsRead
     protected $number;
     protected $numberText;
     protected $info;
-    protected $brand;
+    protected $brandName;
     protected $brandId;
     
     public function getId() {
@@ -33,8 +33,8 @@ class PartsRead
         return $this->info;
     }
 
-    public function getBrand() {
-        return $this->brand;
+    public function getBrandName() {
+        return $this->brandName;
     }
 
     public function getBrandId() {
@@ -61,8 +61,8 @@ class PartsRead
         $this->info = $info;
     }
 
-    public function setBrand($brand): void {
-        $this->brand = $brand;
+    public function setBrandName($brand): void {
+        $this->brand = $brandName;
     }
 
     public function setBrandId($brandId): void {

@@ -28,8 +28,11 @@ security:
                 password_parameter: passwd
             login_throttling:
                 max_attempts: 3 
+                interval: '5 minutes'
             logout:
                 path: app_logout
                 target: /
     access_control:
         - { path: '^/user/profile', roles: ROLE_USER }
+        - { path: '^/parts', roles: ROLE_USER }
+        - { path: '^/admin', roles: ROLE_ADMINISTRATOR }

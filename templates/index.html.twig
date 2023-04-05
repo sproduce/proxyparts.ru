@@ -20,16 +20,33 @@
         
         <nav class="bg-light border-bottom">
             <div class="container d-flex flex-wrap">
-                <ul class="nav me-auto">
-                    <li class="nav-item"><a href="#" class="nav-link link-dark active px-2">О проекте</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Новости</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Описание API</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Контакты</a></li>
-                </ul>
-                <ul class="nav py-1">
-                    <li class="nav-item"><a href="/user/login" class="btn btn-sm btn-outline-secondary rounded-pill">Войти</a></li>
-                    <li class="nav-item ms-4"><a href="/user/register" class="btn btn-sm btn-outline-secondary rounded-pill">Регистрация</a></li>
-                </ul>
+                {%  block menu %}    
+                    <ul class="nav me-auto">
+                        <li class="nav-item"><a href="/" class="nav-link link-dark active px-2">О проекте</a></li>
+                        <li class="nav-item"><a href="/news" class="nav-link link-dark px-2">Новости</a></li>
+                        <li class="nav-item"><a href="/apiInfo" class="nav-link link-dark px-2">Описание API</a></li>
+                        <li class="nav-item"><a href="/contact" class="nav-link link-dark px-2">Контакты</a></li>
+                    </ul>
+                {% endblock %}
+                {%  if app.user %}
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle p-2" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ app.user.email }}
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                            <li><a class="dropdown-item" href="/parts/user"><i class="fas fa-list me-2"></i>Запчасти</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/user/profile"><i class="fas fa-user-cog me-2"></i>Профиль</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Выйти</a></li>
+                        </ul>
+                    </div>
+                {%  else  %}
+                    <ul class="nav py-1">
+                        <li class="nav-item"><a href="/user/loginDialog" class="btn btn-sm btn-outline-secondary rounded-pill DialogUserSMin">Войти</a></li>
+                        <li class="nav-item ms-4"><a href="/user/register" class="btn btn-sm btn-outline-secondary rounded-pill">Регистрация</a></li>
+                    </ul>
+                {% endif %}
             </div>
         </nav>
     <header class="py-1 mb-4 border-bottom">
@@ -67,6 +84,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>       
     
     <script src="/vendor/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendor/js/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/js/user.js?version="></script>
     <script src="/js/ready.js?version="></script>
     

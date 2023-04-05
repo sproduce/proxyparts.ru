@@ -15,11 +15,12 @@ use Symfony\Component\Security\Core\Security;
 class PartsController extends AbstractController
 {
     private $userObj;
+    private $partsServ;
     
-    function __construct(Security $security)
+    function __construct(Security $security, \App\Service\PartsService $partsServ)
     {
         $this->userObj = $security->getUser();
-        
+        $this->partsServ = $partsServ;
     }
     
     
@@ -36,7 +37,7 @@ class PartsController extends AbstractController
         if ($partsNumber){
             $partsServ->searchParts($partsNumber);
             
-            return $this->render('parts/searchResult.html.twig', [
+            return $this->render('Parts/searchResult.html.twig', [
             'partsNumber' => $partsNumber,
             ]);
         } else {
@@ -45,5 +46,61 @@ class PartsController extends AbstractController
         }
        
     }
+    
+    
+    /**
+     * @Route("/parts/add/{partId}")
+     */
+    public function add($partId = null, Request $request): Response 
+    {
+//        
+//        $user = new User();
+//$company = new Company();
+//$items = ['user' => $user, 'company' => $company];
+//
+//$form = $this->createFormBuilder($items)
+//    ->add('user', UserType::class)
+//    ->add('company', CompanyType::class)
+//    ->add('save', SubmitType::class, ['label' => 'Do Something'])
+//     ->getForm();
+//        
+        
+        
+        
+       return $this->renderForm('Parts/add.html.twig');
+    }
+    
+    
+    /**
+     * @Route("/parts/user")
+     */
+    public function listUserParts(): Response 
+    {
+        return $this->render('Parts/userParts.html.twig');
+    }
+    
+    
+    /**
+     * @Route("/parts/preference")
+     */
+    public function userPreference(): Response 
+    {
+        return $this->render('Parts/preference.html.twig');
+    }
+    
+    
+    
+    /**
+     * @Route("/parts/parse")
+     */
+    public function parse(): Response 
+    {
+        return $this->render('Parts/parse.html.twig');
+    }
+    
+    
+    
+    
+    
     
 }

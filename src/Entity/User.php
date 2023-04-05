@@ -17,6 +17,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected $keyMd5;
     protected $id;
     protected $role;
+    protected $registerDate;
     
     
     
@@ -57,8 +58,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     
     
-    
-    
+    public function getRegisterDate() 
+    {
+        return $this->registerDate;
+    }
+
+        
     
     public function eraseCredentials()
     {
@@ -128,6 +133,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setTelegramId($telegramId): void {
         $this->telegramChatId = $telegramId;
+    }
+
+    public function setRegisterDate($registerDate): void 
+    {
+        $this->registerDate = $registerDate;
     }
 
 

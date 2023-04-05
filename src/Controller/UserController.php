@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegisterFormType;
+use App\Form\Type\RegisterFormType;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,6 +70,15 @@ class UserController extends AbstractController
     }
     
     
+     /**
+     * @Route("/user/loginDialog")
+     */
+    public function loginDialog(): Response
+    {
+        return $this->render('Dialog/login.html.twig');
+    }
+    
+    
     /**
      * @Route("/user/login", name="app_login")
      */
@@ -77,7 +86,10 @@ class UserController extends AbstractController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->renderForm('authIndex.html.twig');
+        return $this->renderForm('authIndex.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
     }
 
    
