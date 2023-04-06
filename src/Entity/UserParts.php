@@ -1,6 +1,10 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\User;
+use App\Entity\Parts;
+
+
 
 class UserParts
 {
@@ -12,8 +16,8 @@ class UserParts
     protected $info;
     protected $comment;
     protected $uuid;
-    protected $user;
-    protected $parts;
+    protected User $user;
+    protected Parts $parts;
   
     
     

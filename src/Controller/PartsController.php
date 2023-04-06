@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
 
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 class PartsController extends AbstractController
 {
     private $userObj;
@@ -53,7 +55,25 @@ class PartsController extends AbstractController
      */
     public function add($partId = null, Request $request): Response 
     {
-//        
+//        $brand = $this->partsServ->getBrand();
+//        $parts = $this->partsServ->getPart();
+        $userParts = $this->partsServ->getUserPart();
+        $parts = $userParts->getParts();
+        $brand = $parts->getBrand();
+        $items = ['brand' => $brand, 'parts' => $parts, 'userParts' => $userParts];
+        
+        $form = $this->createFormBuilder($items)
+                ->add('brand', \App\Form\Type\BrandFormType::class)
+                ->add('parts', \App\Form\Type\PartsFormType::class)
+                ->add('userParts', \App\Form\Type\UserPartsFormType::class)
+                ->add('submit', SubmitType::class)
+                ->getForm();
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($brand);
+            echo "!!!!!!!!!!!!!";
+        }
 //        $user = new User();
 //$company = new Company();
 //$items = ['user' => $user, 'company' => $company];
@@ -67,7 +87,7 @@ class PartsController extends AbstractController
         
         
         
-       return $this->renderForm('Parts/add.html.twig');
+       return $this->renderForm('Parts/add.html.twig', ['form' => $form]);
     }
     
     

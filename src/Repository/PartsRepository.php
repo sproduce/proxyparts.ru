@@ -7,6 +7,7 @@ use App\Lib\Core_static;
 
 use App\Entity\Brand;
 use App\Entity\Parts;
+use App\Entity\UserParts;
 
 
 class PartsRepository implements PartsRepositoryInterface
@@ -116,7 +117,6 @@ class PartsRepository implements PartsRepositoryInterface
         
         $result->setBrand($this->getBrand($result->getId()));
         
-        
         return $result;
     }
     
@@ -132,6 +132,21 @@ class PartsRepository implements PartsRepositoryInterface
         
         return $result ?: new Brand;
     }
+    
+    
+    
+    public function getUserPart($userPartsId): UserParts
+    {
+        $sql = 'select * from user_parts where id=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$userPartsId]);
+        $result = $sth->fetchObject('App\Entity\UserParts')?: new UserParts;
+        
+        $result->setParts($this->getPart($result->getPartsId()));
+        
+        return $result ;
+    }
+    
     
     
     

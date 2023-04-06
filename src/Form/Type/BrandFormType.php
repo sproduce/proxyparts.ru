@@ -7,25 +7,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use App\Entity\Parts;
+use App\Entity\Brand;
+
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class PartsFormType extends AbstractType
+class BrandFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id', HiddenType::class)
-            ->add('number', TextType::class,['trim' => true,])
-            ->add('info', TextType::class,['trim' => true, 'required' => false]);
+            ->add('name', TextType::class,['trim' => true,]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-           'data_class' => Parts::class,
+            'data_class' => Brand::class,
         ]);
     }
 }

@@ -3,7 +3,11 @@
 namespace App\Service;
 
 use App\Repository\Interfaces\PartsRepositoryInterface;
+
 use App\Entity\Parts;
+use App\Entity\Brand;
+use App\Entity\UserParts;
+
 
 class PartsService {
     private $partsRep;
@@ -44,6 +48,26 @@ class PartsService {
         
         
         return $result;
+    }
+    
+    
+    
+    public function getPart($partId = null): Parts
+    {
+        return $this->partsRep->getPart($partId);
+    }
+    
+    
+    public function getBrand($brandId = null): Brand 
+    {
+        return $this->partsRep->getBrand($brandId);
+    }
+    
+    
+    
+    public function getUserPart($userPartId = null): UserParts
+    {
+        return $this->partsRep->getUserPart($userPartId);
     }
     
     

@@ -9,7 +9,24 @@
 
 
 {% block body %}
-    User add Parts
+    <div class="row d-flex justify-content-center">
+        <div class="col-8 border border-1 p-3">
+            {{ form_start(form) }}
+                {{ form_row(form.brand.name, { 'label': 'Производитель' }) }}
+                {{ form_row(form.parts.number, { 'label': 'Номер запчасти' }) }}
+                {{ form_row(form.parts.info, { 'label': 'Описание' }) }}
+                {{ form_row(form.userParts.property, { 'label': 'Состояние' }) }}
+                {{ form_row(form.userParts.price, { 'label': 'Цена' }) }}
+                {{ form_row(form.userParts.comment, { 'label': 'Комментарий' }) }}
+                {{ form_row(form.userParts.id)}}
+                {{ form_row(form.parts.id)}}
+                {{ form_row(form.brand.id)}}
+                
+                {{ form_row(form.submit, {'label': 'Добавить'}) }}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
 {% endblock %}
 
 

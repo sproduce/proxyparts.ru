@@ -4,6 +4,7 @@ namespace App\Repository\Interfaces;
 use App\Entity\PartsHistory;
 use App\Entity\Brand;
 use App\Entity\Parts;
+use App\Entity\UserParts;
 
 
 interface PartsRepositoryInterface {
@@ -23,7 +24,7 @@ interface PartsRepositoryInterface {
     public function getBrand($brandId): Brand;
     public function getBrandByName($brand): Brand;
     
-    
+    public function getUserPart($userPartsId): UserParts;
 
     
 }
