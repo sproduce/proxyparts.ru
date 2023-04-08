@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Entity\Brand;
 
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class BrandFormType extends AbstractType

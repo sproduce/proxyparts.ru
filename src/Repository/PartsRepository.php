@@ -21,7 +21,7 @@ class PartsRepository implements PartsRepositoryInterface
     
     
     
-    public function search($number) //return readModel
+    public function search($number) //return readModel[]
     {
         $sql = 'select pn.id,
                        pn.number, 
@@ -46,6 +46,27 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
+    
+    public function searchPart($number, Brand $brand): Parts 
+    {
+        $sql = 'select * form parts_number where numberText=? and brandId=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$number,$brand->getId()]);
+        $partsObj = $sth->fetchObject('App\Entity\Parts')?: new Parts();
+        $partsObj->setBrand($brand);
+        if ($partsObj->getParentId()){
+            $partsObj->setParent($this->getPart($partsObj->getParentId()));
+        }
+        return $partsObj;
+    }
+
+
+
+
+
+
+
+
     public function searchPartsHistory($number): PartsHistory 
     {
         $sql = 'select * from search_history where number=?';
@@ -159,6 +180,26 @@ class PartsRepository implements PartsRepositoryInterface
         
         return $result ?: new Brand;
     }
+    
+    
+    public function storeBrand(Brand $brand): Brand 
+    {
+        if ($brand->getId()){
+            $brandId = $brand->getId();
+            $sql = 'update parts_brand set name=?,uuid=?,pId,? where id=?';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([$brand->getName(), $brand->getUuid(), $brand->getParentId(), $brand->getId(), ]);
+        } else {
+            $sql = 'insert into parts_brand (name,uuid,pId) values(?,?,?)';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([$brand->getName(), $brand->getUuid(), $brand->getParentId(), ]);
+            $brandId = $this->dbh->lastInsertId();
+        }
+        return $this->getBrand($brandId);
+    }
+    
+    
+    
     
     
     public function  getParts($brandId,$page = null)

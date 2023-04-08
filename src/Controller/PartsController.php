@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
-
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PartsController extends AbstractController
@@ -55,6 +55,7 @@ class PartsController extends AbstractController
      */
     public function add($partId = null, Request $request): Response 
     {
+        //echo Uuid::v4();
 //        $brand = $this->partsServ->getBrand();
 //        $parts = $this->partsServ->getPart();
         $userParts = $this->partsServ->getUserPart();
@@ -71,8 +72,8 @@ class PartsController extends AbstractController
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($brand);
-            echo "!!!!!!!!!!!!!";
+            //var_dump($brand);
+            //echo "!!!!!!!!!!!!!";
         }
 //        $user = new User();
 //$company = new Company();

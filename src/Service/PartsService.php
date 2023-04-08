@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use App\Repository\Interfaces\PartsRepositoryInterface;
+use Symfony\Component\Uid\Uuid;
 
 use App\Entity\Parts;
 use App\Entity\Brand;
 use App\Entity\UserParts;
+use App\Entity\User;
 
 
 class PartsService {
@@ -65,10 +67,33 @@ class PartsService {
     
     
     
+    public function getBrandByName($brand): Brand 
+    {
+        $brandObj = $this->partsRep->getBrandByName($brand);
+        if (!$brandObj->getId()){
+            $brandObj->setName($brand);
+            
+            $brandObj = $this->partsRep->storeBrand($brandObj);
+        }
+        
+        return $brandObj;
+    }
+    
+    
+    
+    
     public function getUserPart($userPartId = null): UserParts
     {
         return $this->partsRep->getUserPart($userPartId);
     }
+    
+    
+    public function addUserParts(User $userObj, UserParts $userPartsObj, Parts $partsObj, Brand $brandObj) 
+    {
+        
+    }
+    
+    
     
     
 }

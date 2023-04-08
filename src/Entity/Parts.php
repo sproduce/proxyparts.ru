@@ -12,13 +12,20 @@ class Parts
     protected $number;
     protected $numberText;
     protected $info;
-    protected $parentId;
+    protected $parentId = null;
     protected Parts $parent;
     protected Brand $brand;
     
     
-    
-    
+    public function getParentId() {
+        return $this->parentId;
+    }
+
+    public function getParent(): Parts {
+        return $this->parent;
+    }
+
+        
     public function getId() {
         return $this->id;
     }
@@ -73,6 +80,14 @@ class Parts
 
     public function setBrand(Brand $brand): void {
         $this->brand = $brand;
+    }
+
+    public function setParent(Parts $parent): void {
+        $this->parent = $parent;
+    }
+
+    public function setParentId($parentId): void {
+        $this->parentId = $parentId;
     }
 
 
