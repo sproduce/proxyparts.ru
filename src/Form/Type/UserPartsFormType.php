@@ -19,9 +19,9 @@ class UserPartsFormType extends AbstractType
     {
         $builder
             ->add('id', HiddenType::class,)
-            ->add('price', IntegerType::class)
-            ->add('property', TextType::class,['trim' => true,])
-            ->add('comment', TextType::class,['trim' => true, 'required' => false]);
+            ->add('price', IntegerType::class,['label' => 'Цена'])
+            ->add('property', TextType::class,['trim' => true, 'label' => 'Состояние'])
+            ->add('comment', TextType::class,['trim' => true, 'required' => false, 'label' => 'Комментарий']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -19,7 +19,7 @@ class BrandFormType extends AbstractType
     {
         $builder
             ->add('id', HiddenType::class)
-            ->add('name', TextType::class,['trim' => true,]);
+            ->add('name', TextType::class,['trim' => true, 'label' => 'Производитель']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

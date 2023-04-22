@@ -12,17 +12,39 @@
     <div class="row d-flex justify-content-center">
         <div class="col-8 border border-1 p-3">
             {{ form_start(form) }}
-                {{ form_row(form.brand.name, { 'label': 'Производитель' }) }}
-                {{ form_row(form.parts.number, { 'label': 'Номер запчасти' }) }}
-                {{ form_row(form.parts.info, { 'label': 'Описание' }) }}
-                {{ form_row(form.userParts.property, { 'label': 'Состояние' }) }}
-                {{ form_row(form.userParts.price, { 'label': 'Цена' }) }}
-                {{ form_row(form.userParts.comment, { 'label': 'Комментарий' }) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.brand.name, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.parts.number, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.parts.info, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.userParts.property, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.userParts.price, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+            </div>    
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(form.userParts.comment, {'attr': {'class': 'form-control-sm'}}) }}
+                </div>
+            </div>
+                
+                
                 {{ form_row(form.userParts.id)}}
                 {{ form_row(form.parts.id)}}
                 {{ form_row(form.brand.id)}}
                 
-                {{ form_row(form.submit, {'label': 'Добавить'}) }}
+                {{ form_row(form.submit, {'label': 'Добавить', 'attr': {'class': 'btn-sm btn-outline-primary'}}) }}
             {{ form_end(form) }}
 
         </div>
