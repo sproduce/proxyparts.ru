@@ -199,6 +199,14 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
+    public function storeParts(Parts $partsObj): Parts
+    {
+        ;
+    }
+    
+    
+    
+    
     
     
     

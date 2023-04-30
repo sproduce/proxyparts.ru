@@ -72,9 +72,13 @@ class PartsController extends AbstractController
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //var_dump($brand);
+            $this->partsServ->storeUserParts($this->userObj, $userParts);
+            $this->addFlash('error', 'Запчасть добавлена');
+            return $this->redirect("/parts/add");
+            //var_dump($userParts);
             //echo "!!!!!!!!!!!!!";
-        }
+            //exit();
+        } else 
 //        $user = new User();
 //$company = new Company();
 //$items = ['user' => $user, 'company' => $company];

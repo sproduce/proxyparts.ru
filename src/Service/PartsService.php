@@ -72,12 +72,25 @@ class PartsService {
         $brandObj = $this->partsRep->getBrandByName($brand);
         if (!$brandObj->getId()){
             $brandObj->setName($brand);
-            
             $brandObj = $this->partsRep->storeBrand($brandObj);
         }
         
         return $brandObj;
     }
+    
+    
+    public function getPartByNumber($number, Brand $brandObj) 
+    {
+        $partObj = $this->partsRep->searchPart($number, $brandObj);
+        if (!$partObj->getId()){
+            $partObj->setBrandId($brandObj->getId());
+            $partObj->setNumber($number);
+            //$partsObj = $this->partsRep->sto
+        }
+        
+    }
+    
+    
     
     
     
@@ -88,9 +101,17 @@ class PartsService {
     }
     
     
-    public function addUserParts(User $userObj, UserParts $userPartsObj, Parts $partsObj, Brand $brandObj) 
+    public function storeUserParts(User $userObj, UserParts $userPartsObj) 
     {
+        var_dump($userObj);
+        var_dump($userPartsObj);
+        $partsObj = $userPartsObj->getParts();
+        $brandObj = $partsObj->getBrand();
+        $brandObj = $this->getBrandByName($brandObj->getName());
         
+        
+        
+        //exit();
     }
     
     
