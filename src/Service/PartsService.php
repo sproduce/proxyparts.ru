@@ -72,6 +72,8 @@ class PartsService {
         $brandObj = $this->partsRep->getBrandByName($brand);
         if (!$brandObj->getId()){
             $brandObj->setName($brand);
+            $uuid4 = Uuid::v4(); 
+            $brandObj->setUuid($uuid4->toBinary());
             $brandObj = $this->partsRep->storeBrand($brandObj);
         }
         
@@ -79,15 +81,20 @@ class PartsService {
     }
     
     
-    public function getPartByNumber($number, Brand $brandObj) 
+    public function getPartByNumber(Parts $searchPartObj, Brand $brandObj) 
     {
-        $partObj = $this->partsRep->searchPart($number, $brandObj);
+        $partObj = $this->partsRep->searchPart($this->cleanNumber($searchPartObj->getNumber()), $brandObj);
         if (!$partObj->getId()){
             $partObj->setBrandId($brandObj->getId());
-            $partObj->setNumber($number);
-            //$partsObj = $this->partsRep->sto
+            $partObj->setNumber($this->cleanNumber($searchPartObj->getNumber()));
+            $partObj->setNumberText($searchPartObj->getNumber());
+            $partObj->setInfo($searchPartObj->getInfo());
+            $uuid4 = Uuid::v4(); 
+            $partObj->setUuid($uuid4->toBinary());
+            $partObj = $this->partsRep->storePart($partObj);
         }
         
+        return $partObj;
     }
     
     
@@ -106,9 +113,12 @@ class PartsService {
         var_dump($userObj);
         var_dump($userPartsObj);
         $partsObj = $userPartsObj->getParts();
+        //var_dump($partsObj)
+        //$partsObj->setNumberText();
         $brandObj = $partsObj->getBrand();
-        $brandObj = $this->getBrandByName($brandObj->getName());
         
+        $brandExist = $this->getBrandByName($brandObj->getName());
+        $partExist = $this->getPartByNumber($partsObj, $brandExist);
         
         
         //exit();

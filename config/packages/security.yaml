@@ -32,6 +32,9 @@ security:
             logout:
                 path: app_logout
                 target: /
+            remember_me:
+                secret:   '%kernel.secret%' # required
+                lifetime: 604800    
     access_control:
         - { path: '^/user/profile', roles: ROLE_USER }
         - { path: '^/parts', roles: ROLE_USER }

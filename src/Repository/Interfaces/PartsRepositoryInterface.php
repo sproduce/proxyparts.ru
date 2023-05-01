@@ -30,10 +30,14 @@ interface PartsRepositoryInterface {
     public function getBrandByName($brand): Brand;
     public function storeBrand(Brand $brand): Brand;
     
-    public function storeParts(Parts $partsObj): Parts;
-
+    public function storePart(Parts $partsObj): Parts;
+    
+    
+    
+    
     
     public function getUserPart($userPartsId): UserParts;
+    public function storeUserPart(UserParts $userParts): UserParts;
 
     
 }
