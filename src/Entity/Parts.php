@@ -79,6 +79,7 @@ class Parts
     }
 
     public function setBrand(Brand $brand): void {
+        $this->brandId = $brand->getId();
         $this->brand = $brand;
     }
 

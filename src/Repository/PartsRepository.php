@@ -136,7 +136,7 @@ class PartsRepository implements PartsRepositoryInterface
         $sth->execute([$partId]);
         $result = $sth->fetchObject('App\Entity\Parts')?: new Parts();
         
-        $result->setBrand($this->getBrand($result->getId()));
+        $result->setBrand($this->getBrand($result->getBrandId()));
         
         return $result;
     }
@@ -234,7 +234,24 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function storeUserPart(UserParts $userParts): UserParts 
     {
-        ;
+        if ($userParts->getId()){
+            
+        } else {
+            $sql = 'insert into user_parts (userId,partsId,price,property,info,comment,uuid) values(?,?,?,?,?,?,?)';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([
+                $userParts->getUserId(),
+                $userParts->getPartsId(),
+                $userParts->getPrice(),
+                $userParts->getProperty(),
+                $userParts->getInfo(),
+                $userParts->getComment(),
+                $userParts->getUuid(),
+            ]);
+            $userPartsId = $this->dbh->lastInsertId();    
+        }
+        
+        return $this->getUserPart($userPartsId);
     }
     
     

@@ -15,7 +15,7 @@ class PartsFormType extends AbstractType
     {
         $builder
             ->add('id', HiddenType::class)
-            ->add('number', TextType::class,['trim' => true, 'label' => 'Номер запчасти'])
+            ->add('numberText', TextType::class,['trim' => true, 'label' => 'Номер запчасти'])
             ->add('info', TextType::class,['trim' => true, 'required' => false, 'label' => 'Описание']);
     }
 

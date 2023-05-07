@@ -95,11 +95,13 @@ class UserParts
         $this->uuid = $uuid;
     }
 
-    public function setUser($user): void {
+    public function setUser(User $user): void {
+        $this->userId = $user->getId();
         $this->user = $user;
     }
 
-    public function setParts($parts): void {
+    public function setParts(Parts $parts): void {
+        $this->partsId = $parts->getId();
         $this->parts = $parts;
     }
 
