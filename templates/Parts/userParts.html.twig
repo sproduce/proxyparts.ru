@@ -4,13 +4,36 @@
     {% include 'Parts/menu.html.twig' %}
 {% endblock %}
 
-{% block search %}
+{% block header %}
     
 {% endblock %}
 
 
 {% block body %}
-    User PartsList
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-2 p-1">Производитель</th>
+                <th class="col-2 p-1">Номер</th>
+                <th class="col-7 p-1">Комментарий</th>
+                <th class="col-1 p-1">Цена/Кол.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for userPart in userParts %}
+                <tr>
+                    <td class="p-1">{{ userPart.parts.brand.name }}</td>
+                    <td class="p-1" title="{{ userPart.parts.info }}">{{ userPart.parts.number }}</td>
+                    <td class="p-1">{{ userPart.comment }}</td>
+                    <td class="p-1 pe-3 text-end">{{ userPart.price }}/{{ userPart.kol }}</td>
+                </tr>
+            {% else %}
+                <h5 class="text-center">
+                    Запчпсти не добавлены
+                </h5>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 

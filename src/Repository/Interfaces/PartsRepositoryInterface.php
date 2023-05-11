@@ -37,6 +37,9 @@ interface PartsRepositoryInterface {
     
     
     public function getUserPart($userPartsId): UserParts;
+    public function getUserParts($pageNumber,$userId);
+    public function getUserPartsNumberOfRecords($userId): int;
+    
     public function storeUserPart(UserParts $userParts): UserParts;
 
     

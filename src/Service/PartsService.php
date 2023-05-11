@@ -117,7 +117,18 @@ class PartsService {
     }
     
     
-    
+    public function getUserParts(User $userObj,$pageNumber = null) 
+    {
+        if ($pageNumber){
+            $pageNumber -= 1;
+        } else {
+            $pageNumber = 0;
+        }
+        
+        return $this->partsRep->getUserParts($pageNumber, $userObj->getId());
+        
+        
+    }
     
     
     
@@ -126,8 +137,6 @@ class PartsService {
     
     public function storeUserParts(User $userObj, UserParts $userPartsObj) 
     {
-        //var_dump($userObj);
-        //var_dump($userPartsObj);
         $partsObj = $userPartsObj->getParts();
         $partsObj->setNumber($this->cleanNumber($partsObj->getNumberText()));
         $userPartsObj->setInfo($partsObj->getInfo());
@@ -136,7 +145,6 @@ class PartsService {
         $brandObj->setName($this->brandUpper($brandObj->getName()));
         
         $brandExist = $this->getBrandByName($brandObj->getName());
-        
         $partExist = $this->getPartByNumber($partsObj, $brandExist);
         
         $userPartsObj->setParts($partExist);
@@ -147,13 +155,7 @@ class PartsService {
         }
         
         $this->partsRep->storeUserPart($userPartsObj);
-        //var_dump($userPartsObj);
-        
-        
-        //exit();
     }
-    
-    
     
     
 }

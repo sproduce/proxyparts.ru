@@ -16,10 +16,16 @@ class UserParts
     protected $info;
     protected $comment;
     protected $uuid;
+    protected $kol = 1;
     protected User $user;
     protected Parts $parts;
   
     
+    public function getKol() {
+        return $this->kol;
+    }
+
+        
     
     public function getId() {
         return $this->id;
@@ -103,6 +109,10 @@ class UserParts
     public function setParts(Parts $parts): void {
         $this->partsId = $parts->getId();
         $this->parts = $parts;
+    }
+
+    public function setKol($kol): void {
+        $this->kol = $kol;
     }
 
 

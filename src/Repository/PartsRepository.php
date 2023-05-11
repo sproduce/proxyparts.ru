@@ -263,5 +263,33 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
+    public function getUserParts($pageNumber, $userId) {
+        
+        $from = $pageNumber*20;
+        $sql = 'select * from user_parts where userId=:userId order by id limit :from,20';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->bindParam(':from',$from,\PDO::PARAM_INT);
+        $sth->bindParam(':userId',$userId,\PDO::PARAM_INT);
+        
+        $sth->execute();
+        
+        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\UserParts');
+        
+        if ($resultUserParts){
+            foreach($resultUserParts as $userPart){
+                $userPart->setParts($this->getPart($userPart->getPartsId()));
+            }
+        }
+        
+        return $resultUserParts;
+    }
+    
+    
+    public function getUserPartsNumberOfRecords($userId): int 
+    {
+        ;
+    }
+    
+    
     
 }

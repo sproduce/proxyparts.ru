@@ -55,13 +55,12 @@ class PartsController extends AbstractController
      */
     public function add($partId = null, Request $request): Response 
     {
-        //echo Uuid::v4();
-//        $brand = $this->partsServ->getBrand();
-//        $parts = $this->partsServ->getPart();
         $userParts = $this->partsServ->getUserPart();
-        $parts = $userParts->getParts();
-        $brand = $parts->getBrand();
-        $items = ['brand' => $brand, 'parts' => $parts, 'userParts' => $userParts];
+        $items = [
+            'brand' => $userParts->getParts()->getBrand(), 
+            'parts' => $userParts->getParts(), 
+            'userParts' => $userParts
+        ];
         
         $form = $this->createFormBuilder($items)
                 ->add('brand', \App\Form\Type\BrandFormType::class)
@@ -73,26 +72,11 @@ class PartsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->partsServ->storeUserParts($this->userObj, $userParts);
-            $this->addFlash('error', 'Запчасть добавлена');
+            $this->addFlash('success', 'Запчасть добавлена');
             return $this->redirect("/parts/add");
-            //var_dump($userParts);
-            //echo "!!!!!!!!!!!!!";
-            //exit();
-        } else 
-//        $user = new User();
-//$company = new Company();
-//$items = ['user' => $user, 'company' => $company];
-//
-//$form = $this->createFormBuilder($items)
-//    ->add('user', UserType::class)
-//    ->add('company', CompanyType::class)
-//    ->add('save', SubmitType::class, ['label' => 'Do Something'])
-//     ->getForm();
-//        
-        
-        
-        
-       return $this->renderForm('Parts/add.html.twig', ['form' => $form]);
+        } else {
+            return $this->renderForm('Parts/add.html.twig', ['form' => $form]);
+        }
     }
     
     
@@ -101,7 +85,10 @@ class PartsController extends AbstractController
      */
     public function listUserParts(): Response 
     {
-        return $this->render('Parts/userParts.html.twig');
+        
+        $userPartsObj = $this->partsServ->getUserParts($this->userObj);
+        
+        return $this->render('Parts/userParts.html.twig',['userParts' => $userPartsObj]);
     }
     
     

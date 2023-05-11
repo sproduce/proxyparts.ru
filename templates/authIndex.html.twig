@@ -59,8 +59,14 @@
                 </ul>
             </div>
         </nav>
-    <header class="py-1 mb-4 border-bottom">
-        {% block search %}
+    <header class="py-1 mb-4 border-bottom">1
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+  
+        {% block header %}
             <form action="/search" method="GET">
                 <div class="container d-flex flex-wrap justify-content-center">
                     <div class="pt-1 text-center"> Поиск запчасти</div>

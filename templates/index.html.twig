@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link href="/vendor/css/bootstrap/bootstrap.min.css" rel="stylesheet">
             <link href="/vendor/css/all.min.css" rel="stylesheet">
+            <link href="/css/button.css" rel="stylesheet">
         {% endblock %}
     </head>
     <body class="d-flex flex-column h-100">
@@ -50,7 +51,17 @@
             </div>
         </nav>
     <header class="py-1 mb-4 border-bottom">
-        {% block search %}
+        
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        
+        
+        
+        {% block header %}
             <form action="/search" method="GET">
                 <div class="container d-flex flex-wrap justify-content-center">
                     <div class="pt-1 text-center"> Поиск запчасти</div>
