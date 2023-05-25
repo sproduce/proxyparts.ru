@@ -125,9 +125,10 @@ class PartsService {
             $pageNumber = 0;
         }
         
-        return $this->partsRep->getUserParts($pageNumber, $userObj->getId());
+        $userPartsObj = $this->partsRep->getUserParts($pageNumber, $userObj->getId());
         
         
+        return $userPartsObj;
     }
     
     

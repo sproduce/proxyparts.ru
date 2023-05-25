@@ -13,9 +13,14 @@ use App\Entity\UserParts;
 class PartsRepository implements PartsRepositoryInterface
 {
     private $dbh;
-    public function __construct()
+    private $userRep;
+    private $part = [];
+    private $brand = [];
+    
+    public function __construct(Interfaces\UserRepositoryInterface $userRep)
     {
         $this->dbh = Core_static::loadPdo();
+        $this->userRep = $userRep;
     }
     
     
@@ -29,7 +34,7 @@ class PartsRepository implements PartsRepositoryInterface
                        pn.info,
                        pn.uuid,
                        pn.brandId,
-                       pb.name,
+                       pb.name as brandName,
                        pb.uuid as brandUuid
                 from 
                        parts_number as pn,parts_brand as pb
@@ -131,14 +136,18 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function getPart($partId): Parts 
     {
-        $sql = 'select * from parts_number where id=?';
-        $sth = Core_static::getPDOStatement($sql);
-        $sth->execute([$partId]);
-        $result = $sth->fetchObject('App\Entity\Parts')?: new Parts();
+        if (!isset($this->part[$partId])){
+            $sql = 'select * from parts_number where id=?';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([$partId]);
+            $result = $sth->fetchObject('App\Entity\Parts')?: new Parts();
         
-        $result->setBrand($this->getBrand($result->getBrandId()));
+            $result->setBrand($this->getBrand($result->getBrandId()));
+            $this->part[$partId] = $result;
+        }
         
-        return $result;
+        
+        return $this->part[$partId];
     }
     
     
@@ -146,12 +155,16 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function getBrand($brandId): Brand 
     {
-        $sql = 'select * from parts_brand where id=?';
-        $sth = Core_static::getPDOStatement($sql);
-        $sth->execute([$brandId]);
-        $result = $sth->fetchObject('App\Entity\Brand');
+        if (!isset($this->brand[$brandId])){
+            $sql = 'select * from parts_brand where id=?';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([$brandId]);
+            $this->brand[$brandId] = $sth->fetchObject('App\Entity\Brand')?: new Brand();
+            
+        }
         
-        return $result ?: new Brand;
+        
+        return $this->brand[$brandId];
     }
     
     
@@ -278,6 +291,7 @@ class PartsRepository implements PartsRepositoryInterface
         if ($resultUserParts){
             foreach($resultUserParts as $userPart){
                 $userPart->setParts($this->getPart($userPart->getPartsId()));
+                $userPart->setUser($this->userRep->get($userPart->getUserId()));
             }
         }
         
@@ -288,6 +302,28 @@ class PartsRepository implements PartsRepositoryInterface
     public function getUserPartsNumberOfRecords($userId): int 
     {
         ;
+    }
+    
+    
+    
+    
+    public function getUserPartsByPart($partId) 
+    {
+        $sql = 'select * from user_parts where partsId=?';
+        $sth = Core_static::getPDOStatement($sql);
+
+        $sth->execute([$partId]);
+        
+        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\UserParts');
+        
+        if ($resultUserParts){
+            foreach($resultUserParts as $userPart){
+                $userPart->setParts($this->getPart($userPart->getPartsId()));
+                $userPart->setUser($this->userRep->get($userPart->getUserId()));
+            }
+        }
+        
+        return $resultUserParts;
     }
     
     

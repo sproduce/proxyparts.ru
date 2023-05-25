@@ -41,6 +41,6 @@ interface PartsRepositoryInterface {
     public function getUserPartsNumberOfRecords($userId): int;
     
     public function storeUserPart(UserParts $userParts): UserParts;
-
+    public function getUserPartsByPart($partId);
     
 }

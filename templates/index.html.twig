@@ -51,9 +51,18 @@
             </div>
         </nav>
     <header class="py-1 mb-4 border-bottom">
-        
+        {#{{ dump(app.flashes()) }}#}
         {% for message in app.flashes('success') %}
             <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        
+        
+        
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
