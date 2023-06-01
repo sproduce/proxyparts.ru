@@ -2,7 +2,12 @@
 
 
 {% block body %}
-        result search  {{ partsNumber }}
+        {% if parts|length %}
+            Этот артикул встречается у производителей
+            
+        {% else %}
+            На доске обьявлений запчасти стаким номером никогда небыло
+        {% endif %}
  
 {% endblock %}
 

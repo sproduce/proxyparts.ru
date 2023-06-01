@@ -39,13 +39,13 @@ class PartsController extends AbstractController
         }
         if ($partsNumber){
             $parts = $this->partsServ->searchParts($partsNumber);
-            //var_dump($parts);
             if (count($parts)==1){
                 $id = $parts[0]->getId();
                 return $this->redirect('/searchId/'.$id);
             } else {
                 return $this->render('Parts/searchResult.html.twig', [
                     'partsNumber' => $partsNumber,
+                    'parts' => $parts,
                 ]);
             }
             
@@ -79,9 +79,9 @@ class PartsController extends AbstractController
         
         $partObj = $this->partsServ->getPart($partId);
         
-        $sellersObj = null;
+        $sellersObj = $this->partsServ->getSellerParts($partObj);
         
-       return $this->render('Parts/partInfo.html.twig', [
+        return $this->render('Parts/partSellers.html.twig', [
                     'partObj' => $partObj,
                     'sellersObj' => $sellersObj,
                 ]);

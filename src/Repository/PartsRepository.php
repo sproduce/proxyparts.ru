@@ -50,6 +50,25 @@ class PartsRepository implements PartsRepositoryInterface
         return $result;
     }
     
+
+
+    public function searchParts($number) 
+    {
+        $sql = 'select * from parts_number where number=?';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->execute([$number]);
+        $resultParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\Parts');
+        if ($resultParts){
+            foreach($resultParts as $part){
+                $part->setBrand($this->getBrand($part->getBrandId()));
+                if ($part->getParentId()){
+                    $part->setParent($this->getPart($part->getParentId()));
+                }
+            }
+        }
+        return $resultParts;
+    }
+
     
     
     public function searchPart($number, Brand $brand): Parts 
@@ -57,18 +76,17 @@ class PartsRepository implements PartsRepositoryInterface
         $sql = 'select * from parts_number where number=? and brandId=?';
         $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$number,$brand->getId()]);
-        $partsObj = $sth->fetchObject('App\Entity\Parts')?: new Parts();
-        $partsObj->setBrand($brand);
-        if ($partsObj->getParentId()){
-            $partsObj->setParent($this->getPart($partsObj->getParentId()));
+        $partObj = $sth->fetchObject('App\Entity\Parts')?: new Parts();
+        $partObj->setBrand($brand);
+        if ($partObj->getParentId()){
+            $partObj->setParent($this->getPart($partObj->getParentId()));
         }
-        return $partsObj;
+        return $partObj;
     }
 
-
-
-
-
+    
+    
+   
 
 
 
@@ -124,14 +142,7 @@ class PartsRepository implements PartsRepositoryInterface
         $sql = 'select';
     }
     
-    public function searchParts($number) 
-    {
-        $sql = 'select * from parts_number where number=?';
-        $sth = Core_static::getPDOStatement($sql);
-        $sth->execute([$number]);
-        $result = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\Parts');
-        
-    }
+  
     
     
     public function getPart($partId): Parts 
@@ -291,7 +302,6 @@ class PartsRepository implements PartsRepositoryInterface
         if ($resultUserParts){
             foreach($resultUserParts as $userPart){
                 $userPart->setParts($this->getPart($userPart->getPartsId()));
-                $userPart->setUser($this->userRep->get($userPart->getUserId()));
             }
         }
         
@@ -301,7 +311,10 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function getUserPartsNumberOfRecords($userId): int 
     {
-        ;
+        $sql = 'select count(id) from userParts where userId=:userId';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->bindParam(':userId',$userId,\PDO::PARAM_INT);
+        return $sth->fetchColumn();
     }
     
     

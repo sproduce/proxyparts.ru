@@ -52,7 +52,7 @@ class PartsService {
     {
         $cleanNumber = $this->cleanNumber($number);
         $this->updateHistory($cleanNumber);
-        $result = $this->partsRep->search($cleanNumber);
+        $result = $this->partsRep->searchParts($cleanNumber);
         
         
         return $result;
@@ -157,6 +157,15 @@ class PartsService {
         
         $this->partsRep->storeUserPart($userPartsObj);
     }
+    
+    
+    
+    public function getSellerParts(Parts $partObj)
+    {
+        return $this->partsRep->getUserPartsByPart($partObj->getId());
+    }
+    
+    
     
     
 }

@@ -17,9 +17,6 @@ interface PartsRepositoryInterface {
     public function searchParts($number);
     public function searchPart($number, Brand $brand): Parts;
     
-    
-
-    
     public function searchPartsHistory($number): PartsHistory;
     public function getPartsHistory($id): PartsHistory;
     public function storePartsHistory(PartsHistory $partsHistoryObj): PartsHistory;

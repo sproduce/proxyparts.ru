@@ -1,0 +1,32 @@
+{% extends  "index.html.twig" %}
+
+
+{% block body %}
+        {{ partObj.getId() }} 
+ 
+        
+        
+        {% if sellersObj|length %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-2 p-1">Продавец</th>
+                        <th class="col-7 p-1">Комментарий</th>
+                        <th class="col-1 p-1">Цена/Кол.</th>
+                        <th class="col-1 p-1">Состояние</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        {% else %}
+            Такой запчасти в продаже нет
+        {% endif %}
+{% endblock %}
+
+
+
+{% block javascripts %}
+      {{ parent() }}
+
+{% endblock %}
