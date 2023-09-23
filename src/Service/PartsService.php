@@ -7,7 +7,7 @@ use Symfony\Component\Uid\Uuid;
 
 use App\Entity\Parts;
 use App\Entity\Brand;
-use App\Entity\UserParts;
+use App\Entity\PartsOffer;
 use App\Entity\User;
 
 
@@ -108,7 +108,7 @@ class PartsService {
     
     
     
-    public function getUserPart($userPartId = null): UserParts
+    public function getUserPart($userPartId = null): PartsOffer
     {
         
         
@@ -136,7 +136,7 @@ class PartsService {
     
     
     
-    public function storeUserParts(User $userObj, UserParts $userPartsObj) 
+    public function storeUserParts(User $userObj, PartsOffer $userPartsObj) 
     {
         $partsObj = $userPartsObj->getParts();
         $partsObj->setNumber($this->cleanNumber($partsObj->getNumberText()));
@@ -152,17 +152,20 @@ class PartsService {
         if (!$userPartsObj->getId()){
             $uuid4 = Uuid::v4(); 
             $userPartsObj->setUuid($uuid4->toBinary());
-            $userPartsObj->setUser($userObj);
+            $userPartsObj->setUserId($userObj->getId());
         }
         
+        if (!$userPartsObj->getAmount()){
+            $userPartsObj->setAmount(1);
+        }
         $this->partsRep->storeUserPart($userPartsObj);
     }
     
     
     
-    public function getSellerParts(Parts $partObj)
+    public function getPartOffers(Parts $partObj)
     {
-        return $this->partsRep->getUserPartsByPart($partObj->getId());
+        return $this->partsRep->getPartOffers($partObj);
     }
     
     

@@ -11,9 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-use App\Entity\UserParts;
+use App\Entity\PartsOffer;
 
 class UserPartsFormType extends AbstractType
 {
@@ -22,6 +20,8 @@ class UserPartsFormType extends AbstractType
         $builder
             ->add('id', HiddenType::class,)
             ->add('price', IntegerType::class,['label' => 'Цена'])
+            ->add('priceSale', IntegerType::class,['label' => 'Цена продажи', 'required' => false])
+            ->add('amount', IntegerType::class,['label' => 'Количество', 'required' => false])
             ->add('property', ChoiceType::class,[
                 'trim' => true, 
                 'label' => 'Состояние',
@@ -37,7 +37,7 @@ class UserPartsFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserParts::class,
+            'data_class' => PartsOffer::class,
         ]);
     }
 }

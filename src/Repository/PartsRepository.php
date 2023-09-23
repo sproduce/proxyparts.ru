@@ -7,20 +7,21 @@ use App\Lib\Core_static;
 
 use App\Entity\Brand;
 use App\Entity\Parts;
-use App\Entity\UserParts;
+use App\Entity\PartsOffer;
+use App\Repository\SellerRepository;
 
 
 class PartsRepository implements PartsRepositoryInterface
 {
     private $dbh;
-    private $userRep;
     private $part = [];
     private $brand = [];
+    private $sellerRep;
     
-    public function __construct(Interfaces\UserRepositoryInterface $userRep)
+    public function __construct(SellerRepository $sellerRep)
     {
         $this->dbh = Core_static::loadPdo();
-        $this->userRep = $userRep;
+        $this->sellerRep = $sellerRep;
     }
     
     
@@ -171,21 +172,18 @@ class PartsRepository implements PartsRepositoryInterface
             $sth = Core_static::getPDOStatement($sql);
             $sth->execute([$brandId]);
             $this->brand[$brandId] = $sth->fetchObject('App\Entity\Brand')?: new Brand();
-            
         }
-        
-        
         return $this->brand[$brandId];
     }
     
     
     
-    public function getUserPart($userPartsId): UserParts
+    public function getUserPart($userPartsId): PartsOffer
     {
-        $sql = 'select * from user_parts where id=?';
+        $sql = 'select * from parts_offer where id=?';
         $sth = Core_static::getPDOStatement($sql);
         $sth->execute([$userPartsId]);
-        $result = $sth->fetchObject('App\Entity\UserParts')?: new UserParts;
+        $result = $sth->fetchObject('App\Entity\PartsOffer')?: new PartsOffer;
         
         $result->setParts($this->getPart($result->getPartsId()));
         
@@ -256,17 +254,33 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
-    public function storeUserPart(UserParts $userParts): UserParts 
+    public function storeUserPart(PartsOffer $userParts): PartsOffer
     {
         if ($userParts->getId()){
+            $userPartsId = $userParts->getId();
+            $sql = 'update parts_offer set partsId = ?, price = ?, priceSale = ?, amount = ?, property = ?, info = ?, comment = ? where id = ?';
+            $sth = Core_static::getPDOStatement($sql);
+            $sth->execute([
+                $userParts->getPartsId(),
+                $userParts->getPrice(),
+                $userParts->getPriceSale(),
+                $userParts->getAmount(),
+                $userParts->getProperty(),
+                $userParts->getInfo(),
+                $userParts->getComment(),
+                $userParts->getId(),
+            ]);
+            
             
         } else {
-            $sql = 'insert into user_parts (userId,partsId,price,property,info,comment,uuid) values(?,?,?,?,?,?,?)';
+            $sql = 'insert into parts_offer (userId,partsId,price,priceSale,amount,property,info,comment,uuid) values(?,?,?,?,?,?,?,?,?)';
             $sth = Core_static::getPDOStatement($sql);
             $sth->execute([
                 $userParts->getUserId(),
                 $userParts->getPartsId(),
                 $userParts->getPrice(),
+                $userParts->getPriceSale(),
+                $userParts->getAmount(),
                 $userParts->getProperty(),
                 $userParts->getInfo(),
                 $userParts->getComment(),
@@ -290,14 +304,14 @@ class PartsRepository implements PartsRepositoryInterface
     public function getUserParts($pageNumber, $userId) {
         
         $from = $pageNumber*20;
-        $sql = 'select * from user_parts where userId=:userId order by id limit :from,20';
+        $sql = 'select * from parts_offer where userId=:userId order by id limit :from,20';
         $sth = Core_static::getPDOStatement($sql);
         $sth->bindParam(':from',$from,\PDO::PARAM_INT);
         $sth->bindParam(':userId',$userId,\PDO::PARAM_INT);
         
         $sth->execute();
         
-        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\UserParts');
+        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\PartsOffer');
         
         if ($resultUserParts){
             foreach($resultUserParts as $userPart){
@@ -311,7 +325,16 @@ class PartsRepository implements PartsRepositoryInterface
     
     public function getUserPartsNumberOfRecords($userId): int 
     {
-        $sql = 'select count(id) from userParts where userId=:userId';
+        $sql = 'select count(id) from parts_offer where userId=:userId';
+        $sth = Core_static::getPDOStatement($sql);
+        $sth->bindParam(':userId',$userId,\PDO::PARAM_INT);
+        return $sth->fetchColumn();
+    }
+    
+    
+    public function getUserPartsNumberOfParts($userId): int 
+    {
+        $sql = 'select sum(amount) from parts_offer where userId=:userId';
         $sth = Core_static::getPDOStatement($sql);
         $sth->bindParam(':userId',$userId,\PDO::PARAM_INT);
         return $sth->fetchColumn();
@@ -320,19 +343,19 @@ class PartsRepository implements PartsRepositoryInterface
     
     
     
-    public function getUserPartsByPart($partId) 
+    public function getPartOffers(Parts $partObj) 
     {
-        $sql = 'select * from user_parts where partsId=?';
+        $sql = 'select * from parts_offer where partsId=?';
         $sth = Core_static::getPDOStatement($sql);
 
-        $sth->execute([$partId]);
+        $sth->execute([$partObj->getId()]);
         
-        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\UserParts');
+        $resultUserParts = $sth->fetchAll(\PDO::FETCH_CLASS,'App\Entity\PartsOffer');
         
         if ($resultUserParts){
             foreach($resultUserParts as $userPart){
                 $userPart->setParts($this->getPart($userPart->getPartsId()));
-                $userPart->setUser($this->userRep->get($userPart->getUserId()));
+                $userPart->setSeller($this->sellerRep->getSeller($userPart->getUserId()));
             }
         }
         

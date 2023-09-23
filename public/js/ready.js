@@ -4,12 +4,16 @@ $(function() {
     initDialogWindow();
     
     
-     $('#modal-dialog').on('shown.bs.modal', function (e) {
+    $('#modal-dialog').on('shown.bs.modal', function (e) {
+    })
 
-})
-    
-    
+    $('.sumToText').each(function(){
+        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, "`"));
+    });
+
 });
+
+
 
 
 function initDialogWindow()

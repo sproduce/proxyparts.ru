@@ -111,6 +111,7 @@ class UserController extends AbstractController
     */ 
     public function profile(): Response
     {
+        //var_dump($this->userObj);
         return $this->render('User/profile.html.twig');
     }
     

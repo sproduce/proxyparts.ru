@@ -18,8 +18,8 @@ class RegisterFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class,['trim' => true,])
-            ->add('name', TextType::class,['trim' => true,])
+            ->add('email', EmailType::class,['trim' => true,'label' => 'Почта (Login)'])
+            ->add('name', TextType::class,['trim' => true,'label' => 'Имя (название организации)'])
             ->add('passwd', RepeatedType::class,[
                         'trim' => true,
                         'type' => PasswordType::class,

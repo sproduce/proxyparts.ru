@@ -5,27 +5,38 @@
 {% endblock %}
 
 {% block header %}
+    <div class="row">
+        <div class="col-12 text-center">Запчасти в наличии</div>
+    </div>
     
 {% endblock %}
 
 
 {% block body %}
-    <table class="table table-striped">
+    <table class="table table-sm table-striped">
         <thead>
             <tr>
-                <th class="col-2 p-1">Производитель</th>
+                <th class="col-1 p-1">Производитель</th>
                 <th class="col-2 p-1">Номер</th>
-                <th class="col-7 p-1">Комментарий</th>
-                <th class="col-1 p-1">Цена/Кол.</th>
+                <th class="col-6 p-1">Комментарий</th>
+                <th class="col-1 p-1">Цена</th>
+                <th class="col-1 p-1">На складе</th>
+                <th class="col-1 p-1"></th>
+                
             </tr>
         </thead>
         <tbody>
             {% for userPart in userParts %}
-                <tr>
-                    <td class="p-1">{{ userPart.parts.brand.name }}</td>
-                    <td class="p-1" title="{{ userPart.parts.info }}">{{ userPart.parts.number }}</td>
-                    <td class="p-1">{{ userPart.comment }}</td>
-                    <td class="p-1 pe-3 text-end">{{ userPart.price }}/{{ userPart.kol }}</td>
+                <tr scope="row">
+                    <td class="text-start">{{ userPart.parts.brand.name }}</td>
+                    <td class="" title="{{ userPart.parts.info }}">{{ userPart.parts.number }}</td>
+                    <td class="text-start">{{ userPart.comment }}</td>
+                    <td class="pe-3 text-end">{{ userPart.price }}</td>
+                    <td class="pe-3">{{ userPart.amount }}</td>
+                    <td><div class="float-right">
+                        <a class="btn btn-ssm btn-outline-warning" title="Редактировать" href="/parts/add/{{ userPart.id }}"><i class="far fa-edit"></i></a>
+                        <a href="/event/delEvent?eventId=65" class="btn btn-ssm btn-outline-danger" title="Удалить" onclick="return confirm('Удалить событие');"><i class="fas fa-trash"></i></a>
+                    </div></td>
                 </tr>
             {% else %}
                 <tr>
@@ -33,6 +44,7 @@
                     <td class="p-1" title="--">--</td>
                     <td class="p-1">--</td>
                     <td class="p-1 pe-3 text-end">--/--</td>
+                    <td></td>
                 </tr>
             {% endfor %}
         </tbody>

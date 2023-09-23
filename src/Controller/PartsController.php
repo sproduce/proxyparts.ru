@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
-//use Symfony\Component\Uid\Uuid;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PartsController extends AbstractController
@@ -79,11 +79,11 @@ class PartsController extends AbstractController
         
         $partObj = $this->partsServ->getPart($partId);
         
-        $sellersObj = $this->partsServ->getSellerParts($partObj);
-        
+        $partOffers = $this->partsServ->getPartOffers($partObj);
+        //var_dump($partOffers);
         return $this->render('Parts/partSellers.html.twig', [
                     'partObj' => $partObj,
-                    'sellersObj' => $sellersObj,
+                    'partOffers' => $partOffers,
                 ]);
     }
     
@@ -108,7 +108,7 @@ class PartsController extends AbstractController
      */
     public function add($partId = null): Response 
     {
-        $userParts = $this->partsServ->getUserPart();
+        $userParts = $this->partsServ->getUserPart($partId);
         $items = [
             'brand' => $userParts->getParts()->getBrand(), 
             'parts' => $userParts->getParts(), 
@@ -124,9 +124,15 @@ class PartsController extends AbstractController
         
         $form->handleRequest($this->request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($userParts->getId()){
+                $this->addFlash('success', 'Запчасть отредактированна');
+                $redirectPath = "/parts/user";
+            } else {
+                $this->addFlash('success', 'Запчасть добавлена');
+                $redirectPath = "/parts/add";
+            }
             $this->partsServ->storeUserParts($this->userObj, $userParts);
-            $this->addFlash('success', 'Запчасть добавлена');
-            return $this->redirect("/parts/add");
+            return $this->redirect($redirectPath);
         } else {
             return $this->renderForm('Parts/add.html.twig', ['form' => $form]);
         }

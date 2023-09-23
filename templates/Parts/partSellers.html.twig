@@ -2,25 +2,39 @@
 
 
 {% block body %}
-        {{ partObj.getId() }} 
- 
-        
-        
-        {% if sellersObj|length %}
-            <table class="table table-striped">
+    <div class="row">
+        <div class="col-2">{{ partObj.brand.name }}  </div>
+        <div class="col-2">{{ partObj.number }}  </div>
+        <div class="col-8">{{ partObj.info }}  </div>
+    </div>
+        {% if partOffers|length %}
+            <table class="table table-striped mt-3 border-top">
                 <thead>
                     <tr>
                         <th class="col-2 p-1">Продавец</th>
                         <th class="col-7 p-1">Комментарий</th>
-                        <th class="col-1 p-1">Цена/Кол.</th>
+                        <th class="col-1 p-1">Цена</th>
                         <th class="col-1 p-1">Состояние</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for part in partOffers %}
+                        <tr>
+                            <td class="p-1 text-start">{{ part.seller.email }}</td>
+                            <td class="p-1" title="{{ part.info }}">{{ part.comment }}</td>
+                            <td class="p-1" title="{{ part.kol }}">{{ part.price }}</td>
+                            <td class="p-1">{{ part.property }}</td>
+                        </tr>
+                    {% endfor %} 
                 </tbody>
             </table>
         {% else %}
-            Такой запчасти в продаже нет
+            <div class="row mt-3 p-3 border-top">
+                <div class="col-12 text-center">
+                    Такой запчасти в продаже нет
+                </div>
+            </div>
+            
         {% endif %}
 {% endblock %}
 

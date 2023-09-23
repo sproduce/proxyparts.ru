@@ -4,7 +4,7 @@ namespace App\Repository\Interfaces;
 use App\Entity\PartsHistory;
 use App\Entity\Brand;
 use App\Entity\Parts;
-use App\Entity\UserParts;
+use App\Entity\PartsOffer;
 
 
 interface PartsRepositoryInterface {
@@ -33,11 +33,13 @@ interface PartsRepositoryInterface {
     
     
     
-    public function getUserPart($userPartsId): UserParts;
+    public function getUserPart($userPartsId): PartsOffer;
     public function getUserParts($pageNumber,$userId);
     public function getUserPartsNumberOfRecords($userId): int;
+    public function getUserPartsNumberOfParts($userId): int;
     
-    public function storeUserPart(UserParts $userParts): UserParts;
-    public function getUserPartsByPart($partId);
+    public function storeUserPart(PartsOffer $userParts): PartsOffer;
+    public function getPartOffers(Parts $partObj);
+
     
 }
