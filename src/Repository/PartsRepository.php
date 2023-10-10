@@ -301,7 +301,8 @@ class PartsRepository implements PartsRepositoryInterface
     }
     
     
-    public function getUserParts($pageNumber, $userId) {
+    public function getUserParts($pageNumber, $userId) 
+    {
         
         $from = $pageNumber*20;
         $sql = 'select * from parts_offer where userId=:userId order by id limit :from,20';

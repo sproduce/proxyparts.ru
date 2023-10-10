@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\Type\AttachePhotoFormType;
+
 
 class PartsController extends AbstractController
 {
@@ -112,22 +114,29 @@ class PartsController extends AbstractController
         $items = [
             'brand' => $userParts->getParts()->getBrand(), 
             'parts' => $userParts->getParts(), 
-            'userParts' => $userParts
+            'userParts' => $userParts,
         ];
         
         $form = $this->createFormBuilder($items)
                 ->add('brand', \App\Form\Type\BrandFormType::class)
                 ->add('parts', \App\Form\Type\PartsFormType::class)
                 ->add('userParts', \App\Form\Type\UserPartsFormType::class)
+                ->add('attachePhoto', AttachePhotoFormType::class)
                 ->add('submit', SubmitType::class)
                 ->getForm();
-        
         $form->handleRequest($this->request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $attachePhoto = $form->get('attachePhoto')->getData();
+            if (count($attachePhoto['attacheFile'])) {
+                //echo pathinfo($attachePhoto->getClientOriginalName(), PATHINFO_FILENAME);
+                //var_dump($attachePhoto);
+                exit();
+            }
             if ($userParts->getId()){
-                $this->addFlash('success', 'Запчасть отредактированна');
+                $this->addFlash('success', 'Запчасть отредактирована');
                 $redirectPath = "/parts/user";
             } else {
+
                 $this->addFlash('success', 'Запчасть добавлена');
                 $redirectPath = "/parts/add";
             }

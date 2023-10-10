@@ -45,12 +45,25 @@
                 </div>
             </div>
                 
+            {#{% if not  form.userParts.vars.value.id %}    #}
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(form.attachePhoto.attacheFile, {'attr': {'class': 'form-control-sm'}}) }}
+                    </div>
+                </div>
+                
+            <div class="row">
+                <div class="col-4">
+                    {{ form_row(form.userParts.public) }}
+                </div>
+            </div>
+            
                 
                 {{ form_row(form.userParts.id)}}
                 {{ form_row(form.parts.id)}}
                 {{ form_row(form.brand.id)}}
                 
-                {{ form_row(form.submit, {'label': 'Добавить', 'attr': {'class': 'btn-sm btn-outline-primary'}}) }}
+                {{ form_row(form.submit, {'label': 'Сохранить', 'attr': {'class': 'btn-sm btn-outline-primary'}}) }}
             {{ form_end(form) }}
 
         </div>
